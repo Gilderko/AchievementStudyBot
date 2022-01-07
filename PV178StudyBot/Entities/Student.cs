@@ -12,9 +12,9 @@ namespace PV178StudyBotDAL.Entities
     {
         public int AcquiredPoints { get; set; }
 
-        public int CurrentRankId { get; set; }
+        public ulong CurrentRankId { get; set; }
         
-        public int? MyTeacherId { get; set; }
+        public ulong? MyTeacherId { get; set; }
 
         [ForeignKey(nameof(MyTeacherId))]
         public Teacher MyTeacher { get; set; }

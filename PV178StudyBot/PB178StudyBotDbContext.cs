@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PV178StudyBotDAL
 {
-    public class BookRentalDbContext : DbContext
+    public class PB178StudyBotDbContext : DbContext
     {
         // Entity Tables
 
@@ -17,6 +17,8 @@ namespace PV178StudyBotDAL
         public DbSet<Rank> Ranks { get; set; }
 
         public DbSet<Request> Requests { get; set; }
+
+        public DbSet<Admin> Admins { get; set; }
 
         // Connection Tables
 

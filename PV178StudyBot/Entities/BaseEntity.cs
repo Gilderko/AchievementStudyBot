@@ -6,6 +6,6 @@ namespace PV178StudyBotDAL.Entities
     {
         // The name of property Id is hardcoded into QueryBase
         [Key]
-        public int Id { get; set; }
+        public ulong Id { get; set; }
     }
 }

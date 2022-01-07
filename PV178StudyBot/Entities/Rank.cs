@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace PV178StudyBotDAL.Entities
 {
     public class Rank : BaseEntity
-    {
+    {   
         public int PointsRequired { get; set; }
 
         public string Description { get; set; }

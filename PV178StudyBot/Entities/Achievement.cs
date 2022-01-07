@@ -14,6 +14,6 @@ namespace PV178StudyBotDAL.Entities
 
         public int PointReward { get; set; }
 
-        public int ImagePath { get; set; }
+        public string ImagePath { get; set; }
     }
 }
