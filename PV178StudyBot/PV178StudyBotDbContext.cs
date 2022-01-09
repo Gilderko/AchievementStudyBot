@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PV178StudyBotDAL
 {
-    public class PB178StudyBotDbContext : DbContext
+    public class PV178StudyBotDbContext : DbContext
     {
         // Entity Tables
 

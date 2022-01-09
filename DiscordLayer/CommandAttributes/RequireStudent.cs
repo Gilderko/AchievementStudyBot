@@ -1,6 +1,5 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
 using System;
@@ -10,9 +9,9 @@ using System.Threading.Tasks;
 namespace DiscordLayer.CommandAttributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class RequireTeacher : CheckBaseAttribute
+    public class RequireStudent : CheckBaseAttribute
     {
-        public RequireTeacher()
+        public RequireStudent()
         {
 
         }
@@ -24,13 +23,13 @@ namespace DiscordLayer.CommandAttributes
                 return Task.FromResult(false);
             }
 
-            Teacher dbTeacher = null;
+            Student dbStudent = null;
             using (var dbContext = new PV178StudyBotDbContext())
             {
-                dbTeacher = dbContext.Teachers.Find(ctx.Member.Id);
+                dbStudent = dbContext.Students.Find(ctx.Member.Id);
             }
 
-            return Task.FromResult(dbTeacher != null);
+            return Task.FromResult(dbStudent != null);
         }
     }
 }

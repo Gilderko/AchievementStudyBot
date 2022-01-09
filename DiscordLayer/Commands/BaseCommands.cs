@@ -40,7 +40,7 @@ namespace DiscordLayer.Commands
         {
             Rank calculatedRank = null;
 
-            using (var dbContext = new PB178StudyBotDbContext())
+            using (var dbContext = new PV178StudyBotDbContext())
             {               
 
                 foreach (var rank in dbContext.Ranks.OrderBy(rank => rank.PointsRequired))

@@ -25,13 +25,13 @@ namespace DiscordLayer.CommandAttributes
                 return Task.FromResult(false);
             }
 
-            Admin existingAdmin = null;
-            using (var dbContext = new PB178StudyBotDbContext())
+            Admin dbAdmin = null;
+            using (var dbContext = new PV178StudyBotDbContext())
             {
-                existingAdmin = dbContext.Admins.Find(ctx.Member.Id);
+                dbAdmin = dbContext.Admins.Find(ctx.Member.Id);
             }
 
-            return Task.FromResult(existingAdmin != null);
+            return Task.FromResult(dbAdmin != null);
         }
     }
 }

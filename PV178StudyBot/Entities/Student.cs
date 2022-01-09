@@ -26,6 +26,6 @@ namespace PV178StudyBotDAL.Entities
         
         // Many to many relationships
 
-        public ICollection<StudentAndAchievement> ReachedAchievement { get; set; }
+        public ICollection<StudentAndAchievement> ReachedAchievements { get; set; }
     }
 }

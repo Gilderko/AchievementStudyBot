@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PV178StudyBotDAL.Entities
 {
-    public class Achievement : BaseEntity
+    public class Achievement : BaseEntity, IEquatable<Achievement>
     {
         public string Name { get; set; }
 
@@ -15,5 +15,10 @@ namespace PV178StudyBotDAL.Entities
         public int PointReward { get; set; }
 
         public string ImagePath { get; set; }
+
+        public bool Equals(Achievement other)
+        {
+            return Id == other.Id;
+        }
     }
 }

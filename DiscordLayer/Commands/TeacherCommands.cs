@@ -23,14 +23,14 @@ namespace DiscordLayer.Commands
                 return;
             }
 
-            using (var dbContext = new PB178StudyBotDbContext())
+            using (var dbContext = new PV178StudyBotDbContext())
             {
-                var dbTeacher = dbContext.Teachers.Find(ctx.Member.Id);
+                var dbTeacher = await dbContext .Teachers.FindAsync(ctx.Member.Id);
                 var discordTeacher = ctx.Member;
 
                 foreach (var mentionedUser in ctx.Message.MentionedUsers)
                 {
-                    var dbStudent = dbContext.Students.Find(mentionedUser.Id);
+                    var dbStudent = await dbContext.Students.FindAsync(mentionedUser.Id);
                     if (dbStudent == null)
                     {
                         await SendErrorMessage("This student did not register himself in the system", ctx.Channel);
@@ -41,7 +41,7 @@ namespace DiscordLayer.Commands
                     var discordStudent = await ctx.Guild.GetMemberAsync(mentionedUser.Id);
                     
                     // Grant student a role
-                    var discordRole = ctx.Guild.GetRole(dbTeacher.RoleId);
+                    var discordRole = ctx.Guild.GetRole(dbTeacher.RoleId);                    
                     await discordStudent.GrantRoleAsync(discordRole);
 
                     dbStudent.AcquiredPoints = 0;
@@ -50,7 +50,6 @@ namespace DiscordLayer.Commands
                     dbContext.SaveChanges();
                 }
             }
-
         }
     }
 }
