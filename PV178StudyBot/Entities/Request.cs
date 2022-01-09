@@ -13,6 +13,7 @@ namespace PV178StudyBotDAL.Entities
 
         [ForeignKey(nameof(StudentId))]
         public Student Student { get; set; }
+
         public ulong AchievmentId { get; set; }
 
         [ForeignKey(nameof(AchievmentId))]
