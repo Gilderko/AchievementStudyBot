@@ -10,6 +10,11 @@ namespace PV178StudyBotDAL.Entities
 {
     public class Student : BaseEntity
     {
+        public Student()
+        {
+            AcquiredPoints = -1;
+        }
+
         public int AcquiredPoints { get; set; }
 
         public ulong CurrentRankId { get; set; }

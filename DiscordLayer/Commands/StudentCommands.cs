@@ -35,6 +35,7 @@ namespace DiscordLayer.Commands
                 };
 
                 dbContext.Students.Add(newStudent);
+
                 await dbContext.SaveChangesAsync();
                 await SendCorrectMessage("Congratulation, you have been registered as a new student :)",ctx.Channel);
             }
