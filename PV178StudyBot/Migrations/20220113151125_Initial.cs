@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PV178StudyBotDAL.Migrations
 {
@@ -22,7 +22,8 @@ namespace PV178StudyBotDAL.Migrations
                 name: "Achievements",
                 columns: table => new
                 {
-                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PointReward = table.Column<int>(type: "int", nullable: false),
@@ -54,7 +55,9 @@ namespace PV178StudyBotDAL.Migrations
                 name: "Teachers",
                 columns: table => new
                 {
-                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoleId = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,6 +69,7 @@ namespace PV178StudyBotDAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    OnRegisterName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AcquiredPoints = table.Column<int>(type: "int", nullable: false),
                     CurrentRankId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
                     MyTeacherId = table.Column<decimal>(type: "decimal(20,0)", nullable: true)
@@ -73,6 +77,12 @@ namespace PV178StudyBotDAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Students_Ranks_CurrentRankId",
+                        column: x => x.CurrentRankId,
+                        principalTable: "Ranks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Students_Teachers_MyTeacherId",
                         column: x => x.MyTeacherId,
@@ -85,9 +95,10 @@ namespace PV178StudyBotDAL.Migrations
                 name: "Requests",
                 columns: table => new
                 {
-                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     StudentId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    AchievmentId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    AchievmentId = table.Column<int>(type: "int", nullable: false),
                     TeacherId = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
                 },
                 constraints: table =>
@@ -118,7 +129,7 @@ namespace PV178StudyBotDAL.Migrations
                 columns: table => new
                 {
                     StudentId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    AchievementId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    AchievementId = table.Column<int>(type: "int", nullable: false),
                     ReceivedWhen = table.Column<DateTime>(type: "Date", nullable: false)
                 },
                 constraints: table =>
@@ -143,39 +154,45 @@ namespace PV178StudyBotDAL.Migrations
                 columns: new[] { "Id", "Description", "ImagePath", "Name", "PointReward" },
                 values: new object[,]
                 {
-                    { 1m, "Login into the achievement system.", null, "Good Start", 0 },
-                    { 20m, "Get 54 points total.", null, "Skiller", 0 },
-                    { 19m, "Make a project presentation with nice slides.", null, "Leonardo", 0 },
-                    { 18m, "Present a complete project.", null, "Bullseye", 0 },
-                    { 17m, "Get a full score from a homework at least 3 times.", null, "Half-perfectionist", 0 },
-                    { 16m, "Submit fifth homework at least 2 days before the deadline and get at least 80% points.", null, "Fast Logger", 0 },
-                    { 15m, "Gain at least 90% points from the fourth homework.", null, "Shark Expert", 0 },
-                    { 14m, "In your third homework create additional song for the game and submit it with the homework.", null, "Mozart", 0 },
-                    { 12m, "Correctly answers at least 2 test questionnaires on the first attempt.", null, "Lucker", 0 },
-                    { 11m, "Invited friend visited your seminar group.", null, "Recruiter", 0 },
-                    { 13m, "Open and correctly answer all test questionnaires.", null, "Armed & Ready", 0 },
-                    { 9m, "Do not arrive late to any seminar.", null, "Never Too Late", 0 },
-                    { 8m, "Do not arrive late to a seminar.", null, "Not Too Late", 0 },
-                    { 7m, "Visit 6 consecutive seminars.", null, "Fanatic", 0 },
-                    { 6m, "Create at least four unit tests in your homework.", null, "See Sharp", 0 },
-                    { 5m, "Write a relevant post in the discussion forum, or discord channel.", null, "Yes, We Have a Forum", 0 },
-                    { 4m, "First question in seminar.", null, "Curious", 0 },
-                    { 3m, "First answer to a relevant question in seminar.", null, "First Blood", 0 },
-                    { 2m, " Visit the third seminar.", null, "Qualifier", 0 },
-                    { 10m, "Visit another seminar group.", null, "Guest on a Quest", 0 }
+                    { 1, "Login into the achievement system.", null, "Good Start", 0 },
+                    { 20, "Get 54 points total.", null, "Skiller", 0 },
+                    { 19, "Make a project presentation with nice slides.", null, "Leonardo", 0 },
+                    { 18, "Present a complete project.", null, "Bullseye", 0 },
+                    { 17, "Get a full score from a homework at least 3 times.", null, "Half-perfectionist", 0 },
+                    { 16, "Submit fifth homework at least 2 days before the deadline and get at least 80% points.", null, "Fast Logger", 0 },
+                    { 15, "Gain at least 90% points from the fourth homework.", null, "Shark Expert", 0 },
+                    { 13, "Open and correctly answer all test questionnaires.", null, "Armed & Ready", 0 },
+                    { 12, "Correctly answers at least 2 test questionnaires on the first attempt.", null, "Lucker", 0 },
+                    { 11, "Invited friend visited your seminar group.", null, "Recruiter", 0 },
+                    { 14, "In your third homework create additional song for the game and submit it with the homework.", null, "Mozart", 0 },
+                    { 9, "Do not arrive late to any seminar.", null, "Never Too Late", 0 },
+                    { 10, "Visit another seminar group.", null, "Guest on a Quest", 0 },
+                    { 3, "First answer to a relevant question in seminar.", null, "First Blood", 0 },
+                    { 4, "First question in seminar.", null, "Curious", 0 },
+                    { 5, "Write a relevant post in the discussion forum, or discord channel.", null, "Yes, We Have a Forum", 0 },
+                    { 2, " Visit the third seminar.", null, "Qualifier", 0 },
+                    { 7, "Visit 6 consecutive seminars.", null, "Fanatic", 0 },
+                    { 8, "Do not arrive late to a seminar.", null, "Not Too Late", 0 },
+                    { 6, "Create at least four unit tests in your homework.", null, "See Sharp", 0 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Admins",
+                column: "Id",
+                value: 317634903959142401m);
 
             migrationBuilder.InsertData(
                 table: "Ranks",
                 columns: new[] { "Id", "AwardedTitle", "ColorB", "ColorG", "ColorR", "Description", "PointsRequired" },
                 values: new object[,]
                 {
-                    { 5m, "Paladin", 0, 0, 0, "Lorem", 42 },
-                    { 1m, "Squire", 0, 0, 0, "Lorem", 0 },
-                    { 2m, "Initiate", 0, 0, 0, "Lorem", 5 },
-                    { 3m, "Knight", 0, 0, 0, "Lorem", 15 },
-                    { 4m, "Senior knight", 0, 0, 0, "Lorem", 32 },
-                    { 6m, "Elder", 0, 0, 0, "Lorem", 50 }
+                    { 6m, "Paladin", 0, 0, 0, "Lorem", 42 },
+                    { 1m, "Civilian", 0, 0, 0, "Lorem", 0 },
+                    { 2m, "Squire", 0, 0, 0, "Lorem", 5 },
+                    { 3m, "Initiate", 0, 0, 0, "Lorem", 10 },
+                    { 4m, "Knight", 0, 0, 0, "Lorem", 15 },
+                    { 5m, "Senior knight", 0, 0, 0, "Lorem", 32 },
+                    { 7m, "Elder", 0, 0, 0, "Lorem", 50 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -199,6 +216,11 @@ namespace PV178StudyBotDAL.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Students_CurrentRankId",
+                table: "Students",
+                column: "CurrentRankId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_MyTeacherId",
                 table: "Students",
                 column: "MyTeacherId");
@@ -208,9 +230,6 @@ namespace PV178StudyBotDAL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Admins");
-
-            migrationBuilder.DropTable(
-                name: "Ranks");
 
             migrationBuilder.DropTable(
                 name: "Requests");
@@ -223,6 +242,9 @@ namespace PV178StudyBotDAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Students");
+
+            migrationBuilder.DropTable(
+                name: "Ranks");
 
             migrationBuilder.DropTable(
                 name: "Teachers");

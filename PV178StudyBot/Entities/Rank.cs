@@ -1,6 +1,6 @@
 ﻿namespace PV178StudyBotDAL.Entities
 {
-    public class Rank : BaseEntity
+    public class Rank : BaseUlongEntity
     {
         public int PointsRequired { get; set; }
 

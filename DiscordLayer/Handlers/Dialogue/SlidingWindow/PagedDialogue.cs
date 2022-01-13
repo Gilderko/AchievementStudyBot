@@ -79,6 +79,18 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 }
                 else
                 {
+                    string toAcceptField = toAccept.Aggregate("", (total, next) => total + $"{next.ToString()}\n");
+                    string toDenyField = toDeny.Aggregate("", (total, next) => total + $"{next.ToString()}\n");
+
+                    if (toAcceptField != string.Empty)
+                    {
+                        displayEmbed.AddField("Accepted values:", toAcceptField);
+                    }
+                    if (toDenyField != string.Empty)
+                    {
+                        displayEmbed.AddField("Denied values:", toDenyField);
+                    }                    
+
                     await theMessage.ModifyAsync(displayEmbed.Build());
                 }
 
@@ -126,9 +138,12 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 {
                     return (toAccept, toDeny);
                 }
+                else if (reactionEmoji == _terminate)
+                {
+                    return (new HashSet<Value>(), new HashSet<Value>());
+                }
 
                 await theMessage.DeleteReactionAsync(reactionEmoji, reactionResult.Result.User);
-
             }
         }
 

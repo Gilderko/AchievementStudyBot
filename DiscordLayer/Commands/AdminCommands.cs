@@ -50,5 +50,32 @@ namespace DiscordLayer.Commands
                 }
             }
         }
+
+        [Command("deleteTeacher")]
+        [RequireAdmin]
+        public async Task DeleteTeacher(CommandContext ctx)
+        {
+            using (var dbcontext = new PV178StudyBotDbContext())
+            {
+                if (ctx.Message.MentionEveryone || ctx.Message.MentionedUsers.Count == 0)
+                {
+                    await SendErrorMessage("You failed to tag one person or tagged everyone", ctx.Channel);
+                }
+
+                foreach (var potentialTeacher in ctx.Message.MentionedUsers)
+                {
+                    var dbTeacher = dbcontext.Teachers.Find(potentialTeacher.Id);
+                    if (dbTeacher == null)
+                    {
+                        await SendErrorMessage($"{potentialTeacher.Username} is not a teacher", ctx.Channel);
+                        continue;
+                    }
+
+                    dbcontext.Teachers.Remove(dbTeacher);
+
+                    dbcontext.SaveChanges();
+                }
+            }
+        }
     }
 }

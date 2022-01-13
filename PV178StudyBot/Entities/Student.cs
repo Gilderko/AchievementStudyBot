@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PV178StudyBotDAL.Entities
 {
-    public class Student : BaseEntity
+    public class Student : BaseUlongEntity
     {
+        public string OnRegisterName { get; set; }
+
         public int AcquiredPoints { get; set; }
 
         public ulong CurrentRankId { get; set; }

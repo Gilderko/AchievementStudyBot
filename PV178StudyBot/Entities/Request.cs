@@ -9,7 +9,7 @@ namespace PV178StudyBotDAL.Entities
         [ForeignKey(nameof(StudentId))]
         public Student Student { get; set; }
 
-        public ulong AchievmentId { get; set; }
+        public int AchievmentId { get; set; }
 
         [ForeignKey(nameof(AchievmentId))]
         public Achievement RequestedAchievement { get; set; }
@@ -18,5 +18,10 @@ namespace PV178StudyBotDAL.Entities
 
         [ForeignKey(nameof(TeacherId))]
         public Teacher Teacher { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Student.OnRegisterName} requested: {RequestedAchievement.Name}";
+        }
     }
 }

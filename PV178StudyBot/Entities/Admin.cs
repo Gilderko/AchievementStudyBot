@@ -1,6 +1,8 @@
-﻿namespace PV178StudyBotDAL.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PV178StudyBotDAL.Entities
 {
-    public class Admin : BaseEntity
+    public class Admin : BaseUlongEntity
     {
 
     }

@@ -32,6 +32,7 @@ namespace DiscordLayer.Commands
                 {
                     Id = ctx.Member.Id,
                     AcquiredPoints = 0,
+                    OnRegisterName = ctx.Member.Username,
                     CurrentRankId = lowestRank.Id,
                     MyTeacherId = null
                 };
@@ -69,20 +70,20 @@ namespace DiscordLayer.Commands
                 var availableAchievements = allAchievements.Except(studentAchievements).ToList();
 
                 var pagedDialogue = new PagedDialogue<Achievement>(ctx.Guild, ctx.Client, ctx.Channel, ctx.Member,
-                    true, false, "Would you like to request this achievement?", availableAchievements);
+                    true, true, "Would you like to request this achievement?", availableAchievements);
 
                 (var accepted, var declined) = await pagedDialogue.ExecuteDialogue();
 
                 foreach (var achievAccepted in accepted)
                 {
                     var newRequest = new Request()
-                    {
+                    {                   
                         AchievmentId = achievAccepted.Id,
                         StudentId = dbStudent.Id,
                         TeacherId = dbStudent.MyTeacherId.Value
                     };
 
-                    await dbContext.Requests.AddAsync(newRequest);
+                    await dbContext.Set<Request>().AddAsync(newRequest);
                 }
 
                 await dbContext.SaveChangesAsync();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PV178StudyBotDAL.Entities
 {
@@ -15,6 +16,11 @@ namespace PV178StudyBotDAL.Entities
         public bool Equals(Achievement other)
         {
             return Id == other.Id;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}: {new String(Description.Take(25).ToArray())}...";
         }
     }
 }

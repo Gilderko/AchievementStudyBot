@@ -10,7 +10,7 @@ namespace PV178StudyBotDAL.Entities.ConnectionTables
         [ForeignKey(nameof(StudentId))]
         public Student Student { get; set; }
 
-        public ulong AchievementId { get; set; }
+        public int AchievementId { get; set; }
 
         [ForeignKey(nameof(AchievementId))]
         public Achievement Achievement { get; set; }

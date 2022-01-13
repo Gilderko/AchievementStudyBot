@@ -37,11 +37,14 @@ namespace DiscordLayer.Commands
                         await SendErrorMessage("This student did not register himself in the system", ctx.Channel);
                     }
 
-                    dbStudent.MyTeacherId = discordTeacher.Id;
-
                     var discordStudent = await ctx.Guild.GetMemberAsync(mentionedUser.Id);
+                    if (dbStudent.MyTeacherId.HasValue)
+                    {
+                        var currentRole = ctx.Guild.GetRole(dbTeacher.RoleId);
+                        await discordStudent.RevokeRoleAsync(currentRole);                                
+                    }
 
-                    // Grant student a role
+                    dbStudent.MyTeacherId = discordTeacher.Id;
                     var discordRole = ctx.Guild.GetRole(dbTeacher.RoleId);
                     await discordStudent.GrantRoleAsync(discordRole);
 
@@ -58,7 +61,12 @@ namespace DiscordLayer.Commands
 
             using (var dbContext = new PV178StudyBotDbContext())
             {
-                var dbTeacher = await dbContext.Teachers.Include(teacher => teacher.UnresolvedRequests).FirstAsync(teacher => teacher.Id == discordTeacher.Id);
+                var dbTeacher = await dbContext.Teachers
+                    .Include(teacher => teacher.UnresolvedRequests)
+                        .ThenInclude(req => req.RequestedAchievement)
+                    .Include(teacher => teacher.UnresolvedRequests)
+                        .ThenInclude(req => req.Student)
+                    .FirstAsync(teacher => teacher.Id == discordTeacher.Id);
 
                 var requests = dbTeacher.UnresolvedRequests.ToList();
 

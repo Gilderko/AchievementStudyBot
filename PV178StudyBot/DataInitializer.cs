@@ -203,6 +203,12 @@ namespace PV178StudyBotDAL
                 }
                 );
 
+            modelBuilder.Entity<Admin>().HasData(
+                new Admin()
+                {
+                    Id = 317634903959142401,
+                }
+                );
         }
     }
 }

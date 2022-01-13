@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PV178StudyBotDAL.Entities
 {
-    public abstract class BaseEntity : IEntity
+    public abstract class BaseUlongEntity : IEntity
     {
         // The name of property Id is hardcoded into QueryBase
         [Key]
-        public int Id { get; set; }
+        public ulong Id { get; set; }
     }
 }

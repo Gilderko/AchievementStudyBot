@@ -2,11 +2,11 @@
 
 namespace PV178StudyBotDAL.Entities
 {
-    public class Teacher : BaseEntity
+    public class Teacher : BaseUlongEntity
     {
-        public string RoleName;
+        public string RoleName { get; set; }
 
-        public ulong RoleId;
+        public ulong RoleId { get; set; }
 
         public ICollection<Student> MyStudents { get; set; }
 

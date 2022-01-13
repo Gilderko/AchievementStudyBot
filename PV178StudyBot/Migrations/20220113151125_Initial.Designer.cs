@@ -10,7 +10,7 @@ using PV178StudyBotDAL;
 namespace PV178StudyBotDAL.Migrations
 {
     [DbContext(typeof(PV178StudyBotDbContext))]
-    [Migration("20220112155819_Initial")]
+    [Migration("20220113151125_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,10 +23,10 @@ namespace PV178StudyBotDAL.Migrations
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Achievement", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -47,140 +47,140 @@ namespace PV178StudyBotDAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1m,
+                            Id = 1,
                             Description = "Login into the achievement system.",
                             Name = "Good Start",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 2m,
+                            Id = 2,
                             Description = " Visit the third seminar.",
                             Name = "Qualifier",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 3m,
+                            Id = 3,
                             Description = "First answer to a relevant question in seminar.",
                             Name = "First Blood",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 4m,
+                            Id = 4,
                             Description = "First question in seminar.",
                             Name = "Curious",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 5m,
+                            Id = 5,
                             Description = "Write a relevant post in the discussion forum, or discord channel.",
                             Name = "Yes, We Have a Forum",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 6m,
+                            Id = 6,
                             Description = "Create at least four unit tests in your homework.",
                             Name = "See Sharp",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 7m,
+                            Id = 7,
                             Description = "Visit 6 consecutive seminars.",
                             Name = "Fanatic",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 8m,
+                            Id = 8,
                             Description = "Do not arrive late to a seminar.",
                             Name = "Not Too Late",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 9m,
+                            Id = 9,
                             Description = "Do not arrive late to any seminar.",
                             Name = "Never Too Late",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 10m,
+                            Id = 10,
                             Description = "Visit another seminar group.",
                             Name = "Guest on a Quest",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 11m,
+                            Id = 11,
                             Description = "Invited friend visited your seminar group.",
                             Name = "Recruiter",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 12m,
+                            Id = 12,
                             Description = "Correctly answers at least 2 test questionnaires on the first attempt.",
                             Name = "Lucker",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 13m,
+                            Id = 13,
                             Description = "Open and correctly answer all test questionnaires.",
                             Name = "Armed & Ready",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 14m,
+                            Id = 14,
                             Description = "In your third homework create additional song for the game and submit it with the homework.",
                             Name = "Mozart",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 15m,
+                            Id = 15,
                             Description = "Gain at least 90% points from the fourth homework.",
                             Name = "Shark Expert",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 16m,
+                            Id = 16,
                             Description = "Submit fifth homework at least 2 days before the deadline and get at least 80% points.",
                             Name = "Fast Logger",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 17m,
+                            Id = 17,
                             Description = "Get a full score from a homework at least 3 times.",
                             Name = "Half-perfectionist",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 18m,
+                            Id = 18,
                             Description = "Present a complete project.",
                             Name = "Bullseye",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 19m,
+                            Id = 19,
                             Description = "Make a project presentation with nice slides.",
                             Name = "Leonardo",
                             PointReward = 0
                         },
                         new
                         {
-                            Id = 20m,
+                            Id = 20,
                             Description = "Get 54 points total.",
                             Name = "Skiller",
                             PointReward = 0
@@ -197,12 +197,18 @@ namespace PV178StudyBotDAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Admins");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 317634903959142401m
+                        });
                 });
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.ConnectionTables.StudentAndAchievement", b =>
                 {
-                    b.Property<decimal>("AchievementId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<int>("AchievementId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("StudentId")
                         .HasColumnType("decimal(20,0)");
@@ -250,7 +256,7 @@ namespace PV178StudyBotDAL.Migrations
                         new
                         {
                             Id = 1m,
-                            AwardedTitle = "Squire",
+                            AwardedTitle = "Civilian",
                             ColorB = 0,
                             ColorG = 0,
                             ColorR = 0,
@@ -260,7 +266,7 @@ namespace PV178StudyBotDAL.Migrations
                         new
                         {
                             Id = 2m,
-                            AwardedTitle = "Initiate",
+                            AwardedTitle = "Squire",
                             ColorB = 0,
                             ColorG = 0,
                             ColorR = 0,
@@ -270,6 +276,16 @@ namespace PV178StudyBotDAL.Migrations
                         new
                         {
                             Id = 3m,
+                            AwardedTitle = "Initiate",
+                            ColorB = 0,
+                            ColorG = 0,
+                            ColorR = 0,
+                            Description = "Lorem",
+                            PointsRequired = 10
+                        },
+                        new
+                        {
+                            Id = 4m,
                             AwardedTitle = "Knight",
                             ColorB = 0,
                             ColorG = 0,
@@ -279,7 +295,7 @@ namespace PV178StudyBotDAL.Migrations
                         },
                         new
                         {
-                            Id = 4m,
+                            Id = 5m,
                             AwardedTitle = "Senior knight",
                             ColorB = 0,
                             ColorG = 0,
@@ -289,7 +305,7 @@ namespace PV178StudyBotDAL.Migrations
                         },
                         new
                         {
-                            Id = 5m,
+                            Id = 6m,
                             AwardedTitle = "Paladin",
                             ColorB = 0,
                             ColorG = 0,
@@ -299,7 +315,7 @@ namespace PV178StudyBotDAL.Migrations
                         },
                         new
                         {
-                            Id = 6m,
+                            Id = 7m,
                             AwardedTitle = "Elder",
                             ColorB = 0,
                             ColorG = 0,
@@ -311,13 +327,13 @@ namespace PV178StudyBotDAL.Migrations
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Request", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("AchievmentId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<int>("AchievmentId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("StudentId")
                         .HasColumnType("decimal(20,0)");
@@ -352,7 +368,12 @@ namespace PV178StudyBotDAL.Migrations
                     b.Property<decimal?>("MyTeacherId")
                         .HasColumnType("decimal(20,0)");
 
+                    b.Property<string>("OnRegisterName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentRankId");
 
                     b.HasIndex("MyTeacherId");
 
@@ -365,6 +386,12 @@ namespace PV178StudyBotDAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(20,0)")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+
+                    b.Property<decimal>("RoleId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -419,9 +446,17 @@ namespace PV178StudyBotDAL.Migrations
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Student", b =>
                 {
+                    b.HasOne("PV178StudyBotDAL.Entities.Rank", "CurrentRank")
+                        .WithMany()
+                        .HasForeignKey("CurrentRankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PV178StudyBotDAL.Entities.Teacher", "MyTeacher")
                         .WithMany("MyStudents")
                         .HasForeignKey("MyTeacherId");
+
+                    b.Navigation("CurrentRank");
 
                     b.Navigation("MyTeacher");
                 });
