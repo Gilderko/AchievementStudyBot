@@ -3,7 +3,6 @@ using DSharpPlus.CommandsNext.Attributes;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DiscordLayer.CommandAttributes

@@ -1,13 +1,12 @@
 ﻿using DiscordLayer.CommandAttributes;
+using DiscordLayer.Handlers.Dialogue.SlidingWindow;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using Microsoft.EntityFrameworkCore;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DiscordLayer.Commands
@@ -20,10 +19,10 @@ namespace DiscordLayer.Commands
             using (var dbContext = new PV178StudyBotDbContext())
             {
                 var dbStudent = await dbContext.Students.FindAsync(ctx.Member.Id);
-                
+
                 if (dbStudent != null)
                 {
-                    await SendErrorMessage("You are alreade registered as a student", ctx.Channel);
+                    await SendErrorMessage("You are already registered as a student", ctx.Channel);
                     return;
                 }
 
@@ -32,7 +31,7 @@ namespace DiscordLayer.Commands
                 var newStudent = new Student()
                 {
                     Id = ctx.Member.Id,
-                    AcquiredPoints = -1,
+                    AcquiredPoints = 0,
                     CurrentRankId = lowestRank.Id,
                     MyTeacherId = null
                 };
@@ -40,7 +39,7 @@ namespace DiscordLayer.Commands
                 await dbContext.Students.AddAsync(newStudent);
 
                 await dbContext.SaveChangesAsync();
-                await SendCorrectMessage("Congratulation, you have been registered as a new student :)",ctx.Channel);
+                await SendCorrectMessage("Congratulation, you have been registered as a new student :)", ctx.Channel);
             }
         }
 
@@ -54,6 +53,11 @@ namespace DiscordLayer.Commands
                 var dbStudent = await dbContext.Students.Include(student => student.ReachedAchievements)
                     .FirstAsync(student => student.Id == discordStudent.Id);
 
+                if (!dbStudent.MyTeacherId.HasValue)
+                {
+                    await SendErrorMessage("You dont have a teacher assigned", ctx.Channel);
+                }
+
                 var allAchievements = await dbContext.Achievements.Where(_ => true).ToListAsync();
                 var studentAchievements = new List<Achievement>();
 
@@ -62,10 +66,26 @@ namespace DiscordLayer.Commands
                     studentAchievements.Add(await dbContext.Achievements.FindAsync(studentAndAchiev.AchievementId));
                 }
 
-                var availableAchievements = allAchievements.Except(studentAchievements);              
+                var availableAchievements = allAchievements.Except(studentAchievements).ToList();
 
+                var pagedDialogue = new PagedDialogue<Achievement>(ctx.Guild, ctx.Client, ctx.Channel, ctx.Member,
+                    true, false, "Would you like to request this achievement?", availableAchievements);
 
+                (var accepted, var declined) = await pagedDialogue.ExecuteDialogue();
 
+                foreach (var achievAccepted in accepted)
+                {
+                    var newRequest = new Request()
+                    {
+                        AchievmentId = achievAccepted.Id,
+                        StudentId = dbStudent.Id,
+                        TeacherId = dbStudent.MyTeacherId.Value
+                    };
+
+                    await dbContext.Requests.AddAsync(newRequest);
+                }
+
+                await dbContext.SaveChangesAsync();
             }
         }
     }

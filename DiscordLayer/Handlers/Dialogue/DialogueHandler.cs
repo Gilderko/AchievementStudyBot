@@ -1,6 +1,6 @@
-﻿using DSharpPlus;
+﻿using DiscordLayer.Handlers.Dialogue.Steps;
+using DSharpPlus;
 using DSharpPlus.Entities;
-using DiscordLayer.Handlers.Dialogue.Steps;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

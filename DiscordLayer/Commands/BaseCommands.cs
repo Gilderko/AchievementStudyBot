@@ -1,13 +1,9 @@
-﻿using DSharpPlus;
-using DSharpPlus.CommandsNext;
+﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DiscordLayer.Commands
@@ -41,8 +37,7 @@ namespace DiscordLayer.Commands
             Rank calculatedRank = null;
 
             using (var dbContext = new PV178StudyBotDbContext())
-            {               
-
+            {
                 foreach (var rank in dbContext.Ranks.OrderBy(rank => rank.PointsRequired))
                 {
                     if (rank.PointsRequired >= points)

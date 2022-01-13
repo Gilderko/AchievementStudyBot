@@ -5,7 +5,6 @@ using PV178StudyBotDAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
@@ -28,9 +27,22 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
         private DiscordEmoji _accept;
         private DiscordEmoji _decline;
         private DiscordEmoji _terminate;
-        private DiscordEmoji _confirm;        
+        private DiscordEmoji _confirm;
 
-        public async Task<(IEnumerable<Value>,IEnumerable<Value>)> ExecuteDialogue()
+        public PagedDialogue(DiscordGuild guild, DiscordClient client, DiscordChannel channel,
+            DiscordUser user, bool canAccept, bool canDeny, string title, List<Value> valuesToReturn)
+        {
+            _guild = guild;
+            _client = client;
+            _channel = channel;
+            _user = user;
+            _canAccept = canAccept;
+            _canDeny = canDeny;
+            _title = title;
+            _valuesToReturn = valuesToReturn;
+        }
+
+        public async Task<(IEnumerable<Value>, IEnumerable<Value>)> ExecuteDialogue()
         {
             var availableReactions = InitializeEmojis();
 
@@ -38,7 +50,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             var toDeny = new HashSet<Value>();
 
             DiscordMessage theMessage = null;
-            
+
             while (true)
             {
                 var interactivity = _client.GetInteractivity();
@@ -52,7 +64,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 }
                 else if (displayValue is Request)
                 {
-                    var student= _guild.Members.FirstOrDefault(member => member.Key == (displayValue as Request).StudentId).Value;                    
+                    var student = _guild.Members.FirstOrDefault(member => member.Key == (displayValue as Request).StudentId).Value;
                     displayEmbed = BuildEmbed(displayValue as Request, student == null ? "Unknown" : student.DisplayName);
                 }
 
@@ -74,7 +86,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                     (reaction => availableReactions.Contains(reaction.Emoji), theMessage, _user);
 
                 if (reactionResult.TimedOut)
-                {                    
+                {
                     return (new HashSet<Value>(), new HashSet<Value>());
                 }
 
@@ -90,16 +102,33 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 }
                 else if (reactionEmoji == _accept)
                 {
-                    toAccept.Add(_valuesToReturn[_currentPageIndex]);
+                    if (toDeny.Contains(_valuesToReturn[_currentPageIndex]))
+                    {
+                        toDeny.Remove(_valuesToReturn[_currentPageIndex]);
+                    }
+                    else
+                    {
+                        toAccept.Add(_valuesToReturn[_currentPageIndex]);
+                    }
                 }
                 else if (reactionEmoji == _decline)
                 {
-                    toDeny.Add(_valuesToReturn[_currentPageIndex]);
+                    if (toAccept.Contains(_valuesToReturn[_currentPageIndex]))
+                    {
+                        toAccept.Remove(_valuesToReturn[_currentPageIndex]);
+                    }
+                    else
+                    {
+                        toDeny.Add(_valuesToReturn[_currentPageIndex]);
+                    }
                 }
                 else if (reactionEmoji == _confirm)
                 {
                     return (toAccept, toDeny);
                 }
+
+                await theMessage.DeleteReactionAsync(reactionEmoji, reactionResult.Result.User);
+
             }
         }
 
@@ -112,7 +141,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             _confirm = DiscordEmoji.FromName(_client, ":green_square:");
             _terminate = DiscordEmoji.FromName(_client, ":red_square:");
 
-            var resultList = new List<DiscordEmoji>() { _goLeft, _goRight, _confirm };
+            var resultList = new List<DiscordEmoji>() { _goLeft, _goRight };
 
             if (_canAccept)
             {
@@ -122,6 +151,9 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             {
                 resultList.Add(_decline);
             }
+
+            resultList.Add(_confirm);
+            resultList.Add(_terminate);
 
             return resultList;
         }
@@ -133,9 +165,9 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 Title = _title,
                 Color = DiscordColor.Blue,
                 ImageUrl = achievement.ImagePath,
-                Description = achievement.Description
             };
 
+            embedBuidler.AddField($"{achievement.Name}", $"{achievement.Description}");
             embedBuidler.AddField("Rewards", $"{achievement.PointReward} caps");
 
             AddDescription(embedBuidler);

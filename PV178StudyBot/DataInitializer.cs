@@ -1,8 +1,5 @@
-﻿using PV178StudyBotDAL.Entities;
-using PV178StudyBotDAL.Entities.ConnectionTables;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using PV178StudyBotDAL.Entities;
 
 namespace PV178StudyBotDAL
 {
@@ -137,17 +134,17 @@ namespace PV178StudyBotDAL
                 new Rank()
                 {
                     Id = 1,
-                    AwardedTitle = "Squire",              
+                    AwardedTitle = "Civilian",
                     Description = "Lorem",
                     PointsRequired = 0,
                     ColorR = 0,
-                    ColorG = 0, 
+                    ColorG = 0,
                     ColorB = 0,
                 },
                 new Rank()
                 {
                     Id = 2,
-                    AwardedTitle = "Initiate",
+                    AwardedTitle = "Squire",
                     Description = "Lorem",
                     PointsRequired = 5,
                     ColorR = 0,
@@ -157,6 +154,16 @@ namespace PV178StudyBotDAL
                 new Rank()
                 {
                     Id = 3,
+                    AwardedTitle = "Initiate",
+                    Description = "Lorem",
+                    PointsRequired = 10,
+                    ColorR = 0,
+                    ColorG = 0,
+                    ColorB = 0,
+                },
+                new Rank()
+                {
+                    Id = 4,
                     AwardedTitle = "Knight",
                     Description = "Lorem",
                     PointsRequired = 15,
@@ -166,7 +173,7 @@ namespace PV178StudyBotDAL
                 },
                 new Rank()
                 {
-                    Id = 4,
+                    Id = 5,
                     AwardedTitle = "Senior knight",
                     Description = "Lorem",
                     PointsRequired = 32,
@@ -176,7 +183,7 @@ namespace PV178StudyBotDAL
                 },
                 new Rank()
                 {
-                    Id = 5,
+                    Id = 6,
                     AwardedTitle = "Paladin",
                     Description = "Lorem",
                     PointsRequired = 42,
@@ -186,14 +193,15 @@ namespace PV178StudyBotDAL
                 },
                 new Rank()
                 {
-                    Id = 6,
+                    Id = 7,
                     AwardedTitle = "Elder",
                     Description = "Lorem",
                     PointsRequired = 50,
                     ColorR = 0,
                     ColorG = 0,
                     ColorB = 0,
-                });
+                }
+                );
 
         }
     }

@@ -1,6 +1,6 @@
-﻿using PV178StudyBotDAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using PV178StudyBotDAL.Entities;
 using PV178StudyBotDAL.Entities.ConnectionTables;
-using Microsoft.EntityFrameworkCore;
 
 namespace PV178StudyBotDAL
 {
@@ -38,6 +38,8 @@ namespace PV178StudyBotDAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<StudentAndAchievement>()
+                .HasKey(obj => new { obj.AchievementId, obj.StudentId });
 
             modelBuilder.Seed();
 

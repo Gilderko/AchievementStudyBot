@@ -5,7 +5,6 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Text;
@@ -60,9 +59,12 @@ namespace DiscordLayer
                 IgnoreExtraArguments = true
             };
 
-            Commands = Client.UseCommandsNext(commandsConfig);           
-            
+            Commands = Client.UseCommandsNext(commandsConfig);
+
             Commands.RegisterCommands<BaseCommands>();
+            Commands.RegisterCommands<StudentCommands>();
+            Commands.RegisterCommands<TeacherCommands>();
+            Commands.RegisterCommands<AdminCommands>();
 
             await Client.ConnectAsync();
 
