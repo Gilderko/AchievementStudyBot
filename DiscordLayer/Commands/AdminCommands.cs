@@ -4,6 +4,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DiscordLayer.Commands
@@ -46,7 +47,8 @@ namespace DiscordLayer.Commands
 
                     await dbcontext.Teachers.AddAsync(newTeacher);
 
-                    dbcontext.SaveChanges();
+                    await dbcontext.SaveChangesAsync();
+                    await SendCorrectMessage("Teacher was correctly created",ctx.Channel);
                 }
             }
         }
@@ -73,8 +75,95 @@ namespace DiscordLayer.Commands
 
                     dbcontext.Teachers.Remove(dbTeacher);
 
-                    dbcontext.SaveChanges();
+                    await dbcontext.SaveChangesAsync();
+                    await SendCorrectMessage("Teacher was correctly deleted... dont forget to delete a role yourself", ctx.Channel);
                 }
+            }
+        }
+
+        [Command("createRankRoles")]
+        [RequireAdmin]
+        public async Task CreateRankRoles(CommandContext ctx)
+        {
+            var ranks = new List<Rank>()
+            {
+                new Rank()
+                {
+                    AwardedTitle = "Civilian",
+                    Description = "Lorem",
+                    PointsRequired = 0,
+                    ColorR = 0,
+                    ColorG = 0,
+                    ColorB = 0,
+                },
+                new Rank()
+                {
+                    AwardedTitle = "Squire",
+                    Description = "Lorem",
+                    PointsRequired = 5,
+                    ColorR = 0,
+                    ColorG = 0,
+                    ColorB = 0,
+                },
+                new Rank()
+                {
+                    AwardedTitle = "Initiate",
+                    Description = "Lorem",
+                    PointsRequired = 10,
+                    ColorR = 0,
+                    ColorG = 0,
+                    ColorB = 0,
+                },
+                new Rank()
+                {
+                    AwardedTitle = "Knight",
+                    Description = "Lorem",
+                    PointsRequired = 15,
+                    ColorR = 0,
+                    ColorG = 0,
+                    ColorB = 0,
+                },
+                new Rank()
+                {
+                    AwardedTitle = "Senior knight",
+                    Description = "Lorem",
+                    PointsRequired = 32,
+                    ColorR = 0,
+                    ColorG = 0,
+                    ColorB = 0,
+                },
+                new Rank()
+                {
+                    AwardedTitle = "Paladin",
+                    Description = "Lorem",
+                    PointsRequired = 42,
+                    ColorR = 0,
+                    ColorG = 0,
+                    ColorB = 0,
+                },
+                new Rank()
+                {
+                    AwardedTitle = "Elder",
+                    Description = "Lorem",
+                    PointsRequired = 50,
+                    ColorR = 0,
+                    ColorG = 0,
+                    ColorB = 0,
+                }
+            };
+
+            using (var dbContext = new PV178StudyBotDbContext())
+            {
+                foreach (var rank in ranks)
+                {                    
+                    var newRole = await ctx.Guild.CreateRoleAsync(rank.AwardedTitle, null,
+                        new DSharpPlus.Entities.DiscordColor(rank.ColorR,rank.ColorG,rank.ColorB));
+
+                    rank.Id = newRole.Id;
+                    dbContext.Ranks.Add(rank);
+                }
+
+                await dbContext.SaveChangesAsync();
             }
         }
     }

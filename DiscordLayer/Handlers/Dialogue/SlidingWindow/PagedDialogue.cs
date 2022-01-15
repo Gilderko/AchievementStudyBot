@@ -44,6 +44,11 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
 
         public async Task<(IEnumerable<Value>, IEnumerable<Value>)> ExecuteDialogue()
         {
+            if (_valuesToReturn.Count == 0)
+            {
+                return (new HashSet<Value>(), new HashSet<Value>());
+            }
+
             var availableReactions = InitializeEmojis();
 
             var toAccept = new HashSet<Value>();
@@ -106,13 +111,13 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
 
                 if (reactionEmoji == _goLeft)
                 {
-                    _currentPageIndex = Math.Clamp(_currentPageIndex - 1, 0, _valuesToReturn.Count);
+                    _currentPageIndex = Math.Clamp(_currentPageIndex - 1, 0, _valuesToReturn.Count - 1);
                 }
                 else if (reactionEmoji == _goRight)
                 {
-                    _currentPageIndex = Math.Clamp(_currentPageIndex + 1, 0, _valuesToReturn.Count);
+                    _currentPageIndex = Math.Clamp(_currentPageIndex + 1, 0, _valuesToReturn.Count - 1);
                 }
-                else if (reactionEmoji == _accept)
+                else if (reactionEmoji == _accept && _canAccept)
                 {
                     if (toDeny.Contains(_valuesToReturn[_currentPageIndex]))
                     {
@@ -123,7 +128,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                         toAccept.Add(_valuesToReturn[_currentPageIndex]);
                     }
                 }
-                else if (reactionEmoji == _decline)
+                else if (reactionEmoji == _decline && _canDeny)
                 {
                     if (toAccept.Contains(_valuesToReturn[_currentPageIndex]))
                     {
@@ -197,7 +202,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 Title = _title,
                 Color = DiscordColor.Blue,
                 ImageUrl = request.RequestedAchievement.ImagePath,
-                Description = $"Student '{studentDiscordName}' has requested achievement: '{request.RequestedAchievement.Name}'"
+                Description = request.ToString()
             };
 
             AddDescription(embedBuidler);

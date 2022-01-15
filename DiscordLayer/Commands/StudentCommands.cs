@@ -2,6 +2,7 @@
 using DiscordLayer.Handlers.Dialogue.SlidingWindow;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using Microsoft.EntityFrameworkCore;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
@@ -36,6 +37,9 @@ namespace DiscordLayer.Commands
                     CurrentRankId = lowestRank.Id,
                     MyTeacherId = null
                 };
+
+                var initialRole = ctx.Guild.GetRole(lowestRank.Id);
+                await ctx.Member.GrantRoleAsync(initialRole);
 
                 await dbContext.Students.AddAsync(newStudent);
 
@@ -87,6 +91,41 @@ namespace DiscordLayer.Commands
                 }
 
                 await dbContext.SaveChangesAsync();
+                await SendCorrectMessage($"Requests created in total: {accepted.Count()} requested", ctx.Channel);
+            }
+        }
+
+        [Command("profile")]
+        [RequireStudent]
+        public async Task ShowProfile(CommandContext ctx)
+        {
+            var discordStudent = ctx.Member;
+            using (var dbContext = new PV178StudyBotDbContext())
+            {
+                var dbStudent = dbContext.Students
+                    .Include(student => student.ReachedAchievements)
+                        .ThenInclude(reached => reached.Achievement)                    
+                    .First(student => student.Id == discordStudent.Id);
+
+                var discordStudentsTeacherName = dbStudent.MyTeacherId.HasValue ? 
+                    (await ctx.Guild.GetMemberAsync(dbStudent.MyTeacherId.Value)).DisplayName : "(no teacher)";
+
+                var profileEmbded = new DiscordEmbedBuilder()
+                {
+                    Title = $"Profile of: {dbStudent.OnRegisterName}",
+                    Color = DiscordColor.Aquamarine     
+                };
+
+                string descriptionString = $"Caps: {dbStudent.AcquiredPoints}\n" +
+                    $"Teacher: {discordStudentsTeacherName}";
+                profileEmbded.Description = descriptionString;
+
+                var achievementsToDisplay = dbStudent.ReachedAchievements.Select(record => record.Achievement).ToList();
+                var achievementsDialogue = new PagedDialogue<Achievement>(ctx.Guild, ctx.Client, ctx.Channel, ctx.Member,
+                    false, false, $"Achievements {dbStudent.ReachedAchievements.Count()}", achievementsToDisplay);
+
+                await SendCorrectMessage(profileEmbded.Build(), ctx.Channel);
+                await achievementsDialogue.ExecuteDialogue();
             }
         }
     }

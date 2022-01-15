@@ -231,14 +231,14 @@ namespace PV178StudyBotDAL.Migrations
                     b.Property<string>("AwardedTitle")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ColorB")
-                        .HasColumnType("int");
+                    b.Property<float>("ColorB")
+                        .HasColumnType("real");
 
-                    b.Property<int>("ColorG")
-                        .HasColumnType("int");
+                    b.Property<float>("ColorG")
+                        .HasColumnType("real");
 
-                    b.Property<int>("ColorR")
-                        .HasColumnType("int");
+                    b.Property<float>("ColorR")
+                        .HasColumnType("real");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -249,78 +249,6 @@ namespace PV178StudyBotDAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ranks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1m,
-                            AwardedTitle = "Civilian",
-                            ColorB = 0,
-                            ColorG = 0,
-                            ColorR = 0,
-                            Description = "Lorem",
-                            PointsRequired = 0
-                        },
-                        new
-                        {
-                            Id = 2m,
-                            AwardedTitle = "Squire",
-                            ColorB = 0,
-                            ColorG = 0,
-                            ColorR = 0,
-                            Description = "Lorem",
-                            PointsRequired = 5
-                        },
-                        new
-                        {
-                            Id = 3m,
-                            AwardedTitle = "Initiate",
-                            ColorB = 0,
-                            ColorG = 0,
-                            ColorR = 0,
-                            Description = "Lorem",
-                            PointsRequired = 10
-                        },
-                        new
-                        {
-                            Id = 4m,
-                            AwardedTitle = "Knight",
-                            ColorB = 0,
-                            ColorG = 0,
-                            ColorR = 0,
-                            Description = "Lorem",
-                            PointsRequired = 15
-                        },
-                        new
-                        {
-                            Id = 5m,
-                            AwardedTitle = "Senior knight",
-                            ColorB = 0,
-                            ColorG = 0,
-                            ColorR = 0,
-                            Description = "Lorem",
-                            PointsRequired = 32
-                        },
-                        new
-                        {
-                            Id = 6m,
-                            AwardedTitle = "Paladin",
-                            ColorB = 0,
-                            ColorG = 0,
-                            ColorR = 0,
-                            Description = "Lorem",
-                            PointsRequired = 42
-                        },
-                        new
-                        {
-                            Id = 7m,
-                            AwardedTitle = "Elder",
-                            ColorB = 0,
-                            ColorG = 0,
-                            ColorR = 0,
-                            Description = "Lorem",
-                            PointsRequired = 50
-                        });
                 });
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Request", b =>

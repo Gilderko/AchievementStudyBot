@@ -8,10 +8,10 @@
 
         public string AwardedTitle { get; set; }
 
-        public int ColorR { get; set; }
+        public float ColorR { get; set; }
 
-        public int ColorG { get; set; }
+        public float ColorG { get; set; }
 
-        public int ColorB { get; set; }
+        public float ColorB { get; set; }
     }
 }

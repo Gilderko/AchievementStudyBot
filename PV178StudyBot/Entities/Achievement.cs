@@ -20,7 +20,7 @@ namespace PV178StudyBotDAL.Entities
 
         public override string ToString()
         {
-            return $"{Name}: {new String(Description.Take(25).ToArray())}...";
+            return $"{Name}: {new String(Description.Take(40).ToArray())}...";
         }
     }
 }

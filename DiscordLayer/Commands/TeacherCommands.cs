@@ -2,6 +2,7 @@
 using DiscordLayer.Handlers.Dialogue.SlidingWindow;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using Microsoft.EntityFrameworkCore;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
@@ -49,6 +50,7 @@ namespace DiscordLayer.Commands
                     await discordStudent.GrantRoleAsync(discordRole);
 
                     await dbContext.SaveChangesAsync();
+                    await SendCorrectMessage("Student has been successfully assigned to a teacher", ctx.Channel);
                 }
             }
         }
@@ -70,6 +72,11 @@ namespace DiscordLayer.Commands
 
                 var requests = dbTeacher.UnresolvedRequests.ToList();
 
+                if (requests.Count == 0)
+                {
+                    await SendCorrectMessage("You dont have any requests to resolve :)", ctx.Channel);
+                }
+
                 var pagedDialogue = new PagedDialogue<Request>(ctx.Guild, ctx.Client, ctx.Channel, ctx.Member,
                     true, true, "Grant this request to the user?", requests);
 
@@ -84,6 +91,7 @@ namespace DiscordLayer.Commands
                         ReceivedWhen = DateTime.Now,
                     };
 
+                    dbContext.Requests.Remove(accReq);
                     await dbContext.StudentAndAchievements.AddAsync(newStudentAndAchiev);
                 }
 
@@ -112,6 +120,29 @@ namespace DiscordLayer.Commands
                 }
 
                 await dbContext.SaveChangesAsync();
+                await SendCorrectMessage($"Requests resolved: {acceptedRequests.Count()} accepted, {declinedRequests.Count()} declined", ctx.Channel);
+            }
+        }
+
+        [Command("displayStudents")]
+        [RequireTeacher]
+        public async Task DisplayStudents(CommandContext ctx)
+        {
+            var discordTeacher = ctx.Member;
+            using (var dbContext = new PV178StudyBotDbContext())
+            {
+                var dbTeacher = await dbContext.Teachers.Include(teacher => teacher.MyStudents).FirstAsync(teacher => teacher.Id == discordTeacher.Id);
+
+                var displayEmbed = new DiscordEmbedBuilder()
+                {
+                    Title = $"List of {dbTeacher.RoleName}s:",
+                    Color = DiscordColor.SpringGreen,
+                };
+
+                string students = dbTeacher.MyStudents.Aggregate("", (total, next) => total + $"{next.OnRegisterName}: {next.AcquiredPoints} caps\n");
+                displayEmbed.Description = students;
+
+                await SendCorrectMessage(displayEmbed.Build(), ctx.Channel);
             }
         }
     }
