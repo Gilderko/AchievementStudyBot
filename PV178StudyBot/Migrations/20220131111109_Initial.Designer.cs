@@ -10,7 +10,7 @@ using PV178StudyBotDAL;
 namespace PV178StudyBotDAL.Migrations
 {
     [DbContext(typeof(PV178StudyBotDbContext))]
-    [Migration("20220113162239_Initial")]
+    [Migration("20220131111109_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,142 +48,250 @@ namespace PV178StudyBotDAL.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Login into the achievement system.",
-                            Name = "Good Start",
-                            PointReward = 0
+                            Description = "Get picked by your seminar tutor.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Starter.png",
+                            Name = "Choose a starter",
+                            PointReward = 10
                         },
                         new
                         {
                             Id = 2,
-                            Description = " Visit the third seminar.",
-                            Name = "Qualifier",
-                            PointReward = 0
+                            Description = "First answer to a relevant question in seminar.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/FirstBlood.png",
+                            Name = "First Blood",
+                            PointReward = 10
                         },
                         new
                         {
                             Id = 3,
-                            Description = "First answer to a relevant question in seminar.",
-                            Name = "First Blood",
-                            PointReward = 0
+                            Description = "First relevant question in seminar.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Curious.png",
+                            Name = "Curious",
+                            PointReward = 10
                         },
                         new
                         {
                             Id = 4,
-                            Description = "First question in seminar.",
-                            Name = "Curious",
-                            PointReward = 0
+                            Description = "Do not arrive late to a seminar.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Nottoolate.png",
+                            Name = "Not Too Late",
+                            PointReward = 10
                         },
                         new
                         {
                             Id = 5,
-                            Description = "Write a relevant post in the discussion forum, or discord channel.",
+                            Description = "Write a relevant post in Discord.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Forum.png",
                             Name = "Yes, We Have a Forum",
-                            PointReward = 0
+                            PointReward = 5
                         },
                         new
                         {
                             Id = 6,
-                            Description = "Create at least four unit tests in your homework.",
-                            Name = "See Sharp",
-                            PointReward = 0
+                            Description = "Visit the third seminar.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Qualifier.png",
+                            Name = "Qualifier",
+                            PointReward = 10
                         },
                         new
                         {
                             Id = 7,
-                            Description = "Visit 6 consecutive seminars.",
-                            Name = "Fanatic",
-                            PointReward = 0
+                            Description = "Get full points from one test questionnaire.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Lucker.png",
+                            Name = "Lucker",
+                            PointReward = 10
                         },
                         new
                         {
                             Id = 8,
-                            Description = "Do not arrive late to a seminar.",
-                            Name = "Not Too Late",
-                            PointReward = 0
+                            Description = "Get full points from four test questionnaires.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Lucker.png",
+                            Name = "Lucker 2.0",
+                            PointReward = 15
                         },
                         new
                         {
                             Id = 9,
-                            Description = "Do not arrive late to any seminar.",
-                            Name = "Never Too Late",
-                            PointReward = 0
+                            Description = "Come up with a new question for the test questionnaire",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Recruiter.png",
+                            Name = "Recruiter",
+                            PointReward = 10
                         },
                         new
                         {
                             Id = 10,
-                            Description = "Visit another seminar group.",
-                            Name = "Guest on a Quest",
-                            PointReward = 0
+                            Description = "Get at least 7 points from HW01.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png",
+                            Name = "See Sharp I",
+                            PointReward = 20
                         },
                         new
                         {
                             Id = 11,
-                            Description = "Invited friend visited your seminar group.",
-                            Name = "Recruiter",
-                            PointReward = 0
+                            Description = "Finish HW01 on Heroic mode.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/HW01.png",
+                            Name = "Heroic Mode I",
+                            PointReward = 10
                         },
                         new
                         {
                             Id = 12,
-                            Description = "Correctly answers at least 2 test questionnaires on the first attempt.",
-                            Name = "Lucker",
-                            PointReward = 0
+                            Description = "Get at least 7 points from HW02.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png",
+                            Name = "See Sharp II",
+                            PointReward = 25
                         },
                         new
                         {
                             Id = 13,
-                            Description = "Open and correctly answer all test questionnaires.",
-                            Name = "Armed & Ready",
-                            PointReward = 0
+                            Description = "Finish HW02 on Heroic mode.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/HW02.png",
+                            Name = "Heroic Mode II",
+                            PointReward = 15
                         },
                         new
                         {
                             Id = 14,
-                            Description = "In your third homework create additional song for the game and submit it with the homework.",
-                            Name = "Mozart",
-                            PointReward = 0
+                            Description = "Get at least 9 points from HW03.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png",
+                            Name = "See Sharp III",
+                            PointReward = 30
                         },
                         new
                         {
                             Id = 15,
-                            Description = "Gain at least 90% points from the fourth homework.",
-                            Name = "Shark Expert",
-                            PointReward = 0
+                            Description = "Finish HW03 on Heroic mode.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/SharkExpert.png",
+                            Name = "Heroic Mode III",
+                            PointReward = 20
                         },
                         new
                         {
                             Id = 16,
-                            Description = "Submit fifth homework at least 2 days before the deadline and get at least 80% points.",
-                            Name = "Fast Logger",
-                            PointReward = 0
+                            Description = "Get at least 9 points from HW04.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png",
+                            Name = "See Sharp IV",
+                            PointReward = 35
                         },
                         new
                         {
                             Id = 17,
-                            Description = "Get a full score from a homework at least 3 times.",
-                            Name = "Half-perfectionist",
-                            PointReward = 0
+                            Description = "Finish HW04 on Heroic mode.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/HW04.png",
+                            Name = "Heroic Mode IV",
+                            PointReward = 20
                         },
                         new
                         {
                             Id = 18,
-                            Description = "Present a complete project.",
-                            Name = "Bullseye",
-                            PointReward = 0
+                            Description = "Submit one homework at least 2 days before the deadline.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/FastExplorer.png",
+                            Name = "Fast Explorer",
+                            PointReward = 20
                         },
                         new
                         {
                             Id = 19,
-                            Description = "Make a project presentation with nice slides.",
-                            Name = "Leonardo",
-                            PointReward = 0
+                            Description = "Get full points from all test questionnaires.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/ArmedandReady.png",
+                            Name = "Armed & Ready",
+                            PointReward = 40
                         },
                         new
                         {
                             Id = 20,
-                            Description = "Get 54 points total.",
+                            Description = "Attend the first bonus lecture.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                            Name = "Guest on a Quest I",
+                            PointReward = 10
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Description = "Attend the second bonus lecture.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                            Name = "Guest on a Quest II",
+                            PointReward = 10
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Description = "Attend the third bonus lecture.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                            Name = "Guest on a Quest III",
+                            PointReward = 10
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Description = "Attend the fourth bonus lecture.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                            Name = "Guest on a Quest IV",
+                            PointReward = 10
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Description = "Attend the fifth bonus lecture.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                            Name = "Guest on a Quest V",
+                            PointReward = 10
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Description = "Attend the sixth bonus lecture.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                            Name = "Guest on a Quest VI",
+                            PointReward = 10
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Description = "Do not arrive late to any seminar.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Nevertoolate.png",
+                            Name = "Never Too Late",
+                            PointReward = 25
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Description = "Miss maximum 1 seminar without a health reason.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Fanatic.png",
+                            Name = "Fanatic",
+                            PointReward = 35
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Description = "Use a technology that was not taught in this course in your project.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/General.png",
+                            Name = "Leonardo",
+                            PointReward = 10
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Description = "Do not present your project longer than 5 minutes.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/General2.png",
+                            Name = "Mozar",
+                            PointReward = 10
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Description = "Get at least 20 points from the project.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Skiller.png",
                             Name = "Skiller",
-                            PointReward = 0
+                            PointReward = 25
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Description = "Submit your answers to the course survey.",
+                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Bullseye.png",
+                            Name = "Bullseye",
+                            PointReward = 10
                         });
                 });
 

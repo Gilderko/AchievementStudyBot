@@ -184,8 +184,9 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             {
                 Title = _title,
                 Color = DiscordColor.Blue,
-                ImageUrl = achievement.ImagePath,
             };
+
+            embedBuidler.WithThumbnail(achievement.ImagePath, 124, 124);
 
             embedBuidler.AddField($"{achievement.Name}", $"{achievement.Description}");
             embedBuidler.AddField("Rewards", $"{achievement.PointReward} caps");
@@ -201,9 +202,10 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             {
                 Title = _title,
                 Color = DiscordColor.Blue,
-                ImageUrl = request.RequestedAchievement.ImagePath,
                 Description = request.ToString()
             };
+
+            embedBuidler.WithThumbnail(request.RequestedAchievement.ImagePath, 124, 124);
 
             AddDescription(embedBuidler);
 
@@ -219,7 +221,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 $"\n{_confirm.GetDiscordName()} -> confirm selection (will process selected option)" +
                 $"\n{_terminate.GetDiscordName()} -> terminate selection (wont process selected options)";
 
-            embedBuilder.AddField("Description", description);
+            embedBuilder.AddField("Description", description);            
         }
     }
 }

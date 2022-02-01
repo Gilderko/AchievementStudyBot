@@ -100,54 +100,63 @@ namespace DiscordLayer.Commands
                 {
                     AwardedTitle = "Squire",
                     Description = "Lorem",
-                    PointsRequired = 5,
-                    ColorR = 0,
-                    ColorG = 0,
+                    PointsRequired = 55,
+                    ColorR = 43,
+                    ColorG = 255,
                     ColorB = 0,
                 },
                 new Rank()
                 {
                     AwardedTitle = "Initiate",
                     Description = "Lorem",
-                    PointsRequired = 10,
+                    PointsRequired = 100,
                     ColorR = 0,
-                    ColorG = 0,
-                    ColorB = 0,
+                    ColorG = 162,
+                    ColorB = 255,
                 },
                 new Rank()
                 {
                     AwardedTitle = "Knight",
                     Description = "Lorem",
-                    PointsRequired = 15,
+                    PointsRequired = 145,
                     ColorR = 0,
-                    ColorG = 0,
-                    ColorB = 0,
+                    ColorG = 68,
+                    ColorB = 255,
                 },
                 new Rank()
                 {
-                    AwardedTitle = "Senior knight",
+                    AwardedTitle = "Senior Knight",
                     Description = "Lorem",
-                    PointsRequired = 32,
-                    ColorR = 0,
+                    PointsRequired = 205,
+                    ColorR = 137,
                     ColorG = 0,
-                    ColorB = 0,
+                    ColorB = 255,
                 },
                 new Rank()
                 {
                     AwardedTitle = "Paladin",
                     Description = "Lorem",
-                    PointsRequired = 42,
-                    ColorR = 0,
+                    PointsRequired = 270,
+                    ColorR = 255,
                     ColorG = 0,
-                    ColorB = 0,
+                    ColorB = 137,
                 },
                 new Rank()
                 {
                     AwardedTitle = "Elder",
                     Description = "Lorem",
-                    PointsRequired = 50,
-                    ColorR = 0,
-                    ColorG = 0,
+                    PointsRequired = 335,
+                    ColorR = 255,
+                    ColorG = 255,
+                    ColorB = 0,
+                },
+                new Rank()
+                {
+                    AwardedTitle = "High Elder",
+                    Description = "Lorem",
+                    PointsRequired = 430,
+                    ColorR = 255,
+                    ColorG = 171,
                     ColorB = 0,
                 }
             };

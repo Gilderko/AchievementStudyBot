@@ -11,122 +11,250 @@ namespace PV178StudyBotDAL
                 new Achievement
                 {
                     Id = 1,
-                    Name = "Good Start",
-                    Description = "Login into the achievement system."
+                    Name = "Choose a starter",
+                    Description = "Get picked by your seminar tutor.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Starter.png",
+                    PointReward = 10
                 },
                 new Achievement
                 {
                     Id = 2,
-                    Name = "Qualifier",
-                    Description = " Visit the third seminar."
+                    Name = "First Blood",
+                    Description = "First answer to a relevant question in seminar.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/FirstBlood.png",
+                    PointReward = 10
                 },
                 new Achievement
                 {
                     Id = 3,
-                    Name = "First Blood",
-                    Description = "First answer to a relevant question in seminar."
+                    Name = "Curious",
+                    Description = "First relevant question in seminar.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Curious.png",
+                    PointReward = 10
                 },
                 new Achievement
                 {
                     Id = 4,
-                    Name = "Curious",
-                    Description = "First question in seminar."
+                    Name = "Not Too Late",
+                    Description = "Do not arrive late to a seminar.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Nottoolate.png",
+                    PointReward = 10
                 },
                 new Achievement
                 {
                     Id = 5,
                     Name = "Yes, We Have a Forum",
-                    Description = "Write a relevant post in the discussion forum, or discord channel."
+                    Description = "Write a relevant post in Discord.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Forum.png",
+                    PointReward = 5
                 },
                 new Achievement
                 {
                     Id = 6,
-                    Name = "See Sharp",
-                    Description = "Create at least four unit tests in your homework."
+                    Name = "Qualifier",
+                    Description = "Visit the third seminar.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Qualifier.png",
+                    PointReward = 10
                 },
                 new Achievement
                 {
                     Id = 7,
-                    Name = "Fanatic",
-                    Description = "Visit 6 consecutive seminars."
+                    Name = "Lucker",
+                    Description = "Get full points from one test questionnaire.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Lucker.png",
+                    PointReward = 10
                 },
                 new Achievement
                 {
                     Id = 8,
-                    Name = "Not Too Late",
-                    Description = "Do not arrive late to a seminar."
+                    Name = "Lucker 2.0",
+                    Description = "Get full points from four test questionnaires.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Lucker.png",
+                    PointReward = 15
                 },
                 new Achievement
                 {
                     Id = 9,
-                    Name = "Never Too Late",
-                    Description = "Do not arrive late to any seminar."
+                    Name = "Recruiter",
+                    Description = "Come up with a new question for the test questionnaire",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Recruiter.png",
+                    PointReward = 10
                 },
                 new Achievement
                 {
                     Id = 10,
-                    Name = "Guest on a Quest",
-                    Description = "Visit another seminar group."
+                    Name = "See Sharp I",
+                    Description = "Get at least 7 points from HW01.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png",
+                    PointReward = 20
                 },
                 new Achievement
                 {
                     Id = 11,
-                    Name = "Recruiter",
-                    Description = "Invited friend visited your seminar group."
+                    Name = "Heroic Mode I",
+                    Description = "Finish HW01 on Heroic mode.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/HW01.png",
+                    PointReward = 10
                 },
                 new Achievement
                 {
                     Id = 12,
-                    Name = "Lucker",
-                    Description = "Correctly answers at least 2 test questionnaires on the first attempt."
+                    Name = "See Sharp II",
+                    Description = "Get at least 7 points from HW02.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png",
+                    PointReward = 25
                 },
                 new Achievement
                 {
                     Id = 13,
-                    Name = "Armed & Ready",
-                    Description = "Open and correctly answer all test questionnaires."
+                    Name = "Heroic Mode II",
+                    Description = "Finish HW02 on Heroic mode.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/HW02.png",
+                    PointReward = 15
                 },
                 new Achievement
                 {
                     Id = 14,
-                    Name = "Mozart",
-                    Description = "In your third homework create additional song for the game and submit it with the homework."
+                    Name = "See Sharp III",
+                    Description = "Get at least 9 points from HW03.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png",
+                    PointReward = 30
                 },
                 new Achievement
                 {
                     Id = 15,
-                    Name = "Shark Expert",
-                    Description = "Gain at least 90% points from the fourth homework."
+                    Name = "Heroic Mode III",
+                    Description = "Finish HW03 on Heroic mode.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/SharkExpert.png",
+                    PointReward = 20
                 },
                 new Achievement
                 {
                     Id = 16,
-                    Name = "Fast Logger",
-                    Description = "Submit fifth homework at least 2 days before the deadline and get at least 80% points."
+                    Name = "See Sharp IV",
+                    Description = "Get at least 9 points from HW04.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png",
+                    PointReward = 35
                 },
                 new Achievement
                 {
                     Id = 17,
-                    Name = "Half-perfectionist",
-                    Description = "Get a full score from a homework at least 3 times."
+                    Name = "Heroic Mode IV",
+                    Description = "Finish HW04 on Heroic mode.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/HW04.png",
+                    PointReward = 20
                 },
                 new Achievement
                 {
                     Id = 18,
-                    Name = "Bullseye",
-                    Description = "Present a complete project."
+                    Name = "Fast Explorer",
+                    Description = "Submit one homework at least 2 days before the deadline.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/FastExplorer.png",
+                    PointReward = 20
                 },
                 new Achievement
                 {
                     Id = 19,
-                    Name = "Leonardo",
-                    Description = "Make a project presentation with nice slides."
+                    Name = "Armed & Ready",
+                    Description = "Get full points from all test questionnaires.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/ArmedandReady.png",
+                    PointReward = 40
                 },
                 new Achievement
                 {
                     Id = 20,
+                    Name = "Guest on a Quest I",
+                    Description = "Attend the first bonus lecture.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                    PointReward = 10
+                },
+                new Achievement
+                {
+                    Id = 21,
+                    Name = "Guest on a Quest II",
+                    Description = "Attend the second bonus lecture.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                    PointReward = 10
+                },
+                new Achievement
+                {
+                    Id = 22,
+                    Name = "Guest on a Quest III",
+                    Description = "Attend the third bonus lecture.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                    PointReward = 10
+                },
+                new Achievement
+                {
+                    Id = 23,
+                    Name = "Guest on a Quest IV",
+                    Description = "Attend the fourth bonus lecture.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                    PointReward = 10
+                },
+                new Achievement
+                {
+                    Id = 24,
+                    Name = "Guest on a Quest V",
+                    Description = "Attend the fifth bonus lecture.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                    PointReward = 10
+                },
+                new Achievement
+                {
+                    Id = 25,
+                    Name = "Guest on a Quest VI",
+                    Description = "Attend the sixth bonus lecture.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
+                    PointReward = 10
+                },
+                new Achievement
+                {
+                    Id = 26,
+                    Name = "Never Too Late",
+                    Description = "Do not arrive late to any seminar.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Nevertoolate.png",
+                    PointReward = 25
+                },
+                new Achievement
+                {
+                    Id = 27,
+                    Name = "Fanatic",
+                    Description = "Miss maximum 1 seminar without a health reason.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Fanatic.png",
+                    PointReward = 35
+                },
+                new Achievement
+                {
+                    Id = 28,
+                    Name = "Leonardo",
+                    Description = "Use a technology that was not taught in this course in your project.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/General.png",
+                    PointReward = 10
+                },
+                new Achievement
+                {
+                    Id = 29,
+                    Name = "Mozar",
+                    Description = "Do not present your project longer than 5 minutes.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/General2.png",
+                    PointReward = 10
+                },
+                new Achievement
+                {
+                    Id = 30,
                     Name = "Skiller",
-                    Description = "Get 54 points total."
+                    Description = "Get at least 20 points from the project.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Skiller.png",
+                    PointReward = 25
+                },
+                new Achievement
+                {
+                    Id = 31,
+                    Name = "Bullseye",
+                    Description = "Submit your answers to the course survey.",
+                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Bullseye.png",
+                    PointReward = 10
                 }
                 );
             

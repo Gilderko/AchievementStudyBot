@@ -25,7 +25,7 @@ namespace PV178StudyBotDAL
         public DbSet<StudentAndAchievement> StudentAndAchievements { get; set; }
 
 
-        private string ConnectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=BookReservation";
+        private string ConnectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=PV178StudyBot";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
