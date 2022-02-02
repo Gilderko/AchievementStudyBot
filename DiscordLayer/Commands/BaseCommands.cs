@@ -35,19 +35,21 @@ namespace DiscordLayer.Commands
 
                 var embedBuilder = new DiscordEmbedBuilder()
                 {
-                    Title = "Leaderboard of top 25",
+                    Title = "Leaderboard of top 10",
                     Color = DiscordColor.Gold
                 };
 
                 string leaderBoardString = top10Students.Aggregate
                     (("",1), (total, next) => (total.Item1 + $"{total.Item2}. {next.OnRegisterName}: {next.AcquiredPoints} caps",total.Item2 + 1)).Item1;
 
+                embedBuilder.Description = leaderBoardString;
+
                 var dbStudent = dbContext.Students.Find(ctx.Member.Id);
                 if (dbStudent != null)
                 {
                     var position = allStudents.FindIndex(student => student.Id == dbStudent.Id);
 
-                    string description = $"{position}. {dbStudent.OnRegisterName}: {dbStudent.AcquiredPoints} caps";
+                    string description = $"{position + 1}. {dbStudent.OnRegisterName}: {dbStudent.AcquiredPoints} caps";
  
                     embedBuilder.AddField("Your position", description);
                 }

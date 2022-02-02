@@ -101,8 +101,8 @@ namespace DiscordLayer.Commands
                     AwardedTitle = "Squire",
                     Description = "Lorem",
                     PointsRequired = 55,
-                    ColorR = 43,
-                    ColorG = 255,
+                    ColorR = 0.17f,
+                    ColorG = 1,
                     ColorB = 0,
                 },
                 new Rank()
@@ -111,8 +111,8 @@ namespace DiscordLayer.Commands
                     Description = "Lorem",
                     PointsRequired = 100,
                     ColorR = 0,
-                    ColorG = 162,
-                    ColorB = 255,
+                    ColorG = 0.635f,
+                    ColorB = 1,
                 },
                 new Rank()
                 {
@@ -120,34 +120,34 @@ namespace DiscordLayer.Commands
                     Description = "Lorem",
                     PointsRequired = 145,
                     ColorR = 0,
-                    ColorG = 68,
-                    ColorB = 255,
+                    ColorG = 0.266f,
+                    ColorB = 1,
                 },
                 new Rank()
                 {
                     AwardedTitle = "Senior Knight",
                     Description = "Lorem",
                     PointsRequired = 205,
-                    ColorR = 137,
+                    ColorR = 0.54f,
                     ColorG = 0,
-                    ColorB = 255,
+                    ColorB = 1,
                 },
                 new Rank()
                 {
                     AwardedTitle = "Paladin",
                     Description = "Lorem",
                     PointsRequired = 270,
-                    ColorR = 255,
+                    ColorR = 1,
                     ColorG = 0,
-                    ColorB = 137,
+                    ColorB = 0.54f,
                 },
                 new Rank()
                 {
                     AwardedTitle = "Elder",
                     Description = "Lorem",
                     PointsRequired = 335,
-                    ColorR = 255,
-                    ColorG = 255,
+                    ColorR = 1,
+                    ColorG = 1,
                     ColorB = 0,
                 },
                 new Rank()
@@ -155,19 +155,18 @@ namespace DiscordLayer.Commands
                     AwardedTitle = "High Elder",
                     Description = "Lorem",
                     PointsRequired = 430,
-                    ColorR = 255,
-                    ColorG = 171,
-                    ColorB = 0,
+                    ColorR = 1,
+                    ColorG = 0.67f,
+                    ColorB = 0.67f,
                 }
             };
 
             using (var dbContext = new PV178StudyBotDbContext())
             {
                 foreach (var rank in ranks)
-                {                    
+                {
                     var newRole = await ctx.Guild.CreateRoleAsync(rank.AwardedTitle, null,
-                        new DSharpPlus.Entities.DiscordColor(rank.ColorR,rank.ColorG,rank.ColorB));
-
+                        new DSharpPlus.Entities.DiscordColor(rank.ColorR, rank.ColorG, rank.ColorB));
                     rank.Id = newRole.Id;
                     dbContext.Ranks.Add(rank);
                 }

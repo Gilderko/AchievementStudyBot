@@ -122,7 +122,7 @@ namespace DiscordLayer.Commands
 
                 var achievementsToDisplay = dbStudent.ReachedAchievements.Select(record => record.Achievement).ToList();
                 var achievementsDialogue = new PagedDialogue<Achievement>(ctx.Guild, ctx.Client, ctx.Channel, ctx.Member,
-                    false, false, $"Achievements {dbStudent.ReachedAchievements.Count()}", achievementsToDisplay);
+                    false, false, $"Achievements: {dbStudent.ReachedAchievements.Count()}", achievementsToDisplay);
 
                 await SendCorrectMessage(profileEmbded.Build(), ctx.Channel);
                 await achievementsDialogue.ExecuteDialogue();

@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PV178StudyBotDAL;
@@ -10,32 +9,30 @@ using PV178StudyBotDAL;
 namespace PV178StudyBotDAL.Migrations
 {
     [DbContext(typeof(PV178StudyBotDbContext))]
-    [Migration("20220131111109_Initial")]
+    [Migration("20220202122625_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.8")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "5.0.8");
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Achievement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("PointReward")
                         .HasColumnType("int");
@@ -297,10 +294,9 @@ namespace PV178StudyBotDAL.Migrations
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Admin", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Id");
 
@@ -309,7 +305,7 @@ namespace PV178StudyBotDAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 317634903959142401m
+                            Id = 317634903959142401ul
                         });
                 });
 
@@ -318,8 +314,8 @@ namespace PV178StudyBotDAL.Migrations
                     b.Property<int>("AchievementId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("StudentId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<ulong>("StudentId")
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<DateTime>("ReceivedWhen")
                         .HasColumnType("Date");
@@ -333,25 +329,24 @@ namespace PV178StudyBotDAL.Migrations
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Rank", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<string>("AwardedTitle")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<float>("ColorB")
-                        .HasColumnType("real");
+                        .HasColumnType("float");
 
                     b.Property<float>("ColorG")
-                        .HasColumnType("real");
+                        .HasColumnType("float");
 
                     b.Property<float>("ColorR")
-                        .HasColumnType("real");
+                        .HasColumnType("float");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("PointsRequired")
                         .HasColumnType("int");
@@ -365,17 +360,16 @@ namespace PV178StudyBotDAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("AchievmentId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("StudentId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<ulong>("StudentId")
+                        .HasColumnType("bigint unsigned");
 
-                    b.Property<decimal>("TeacherId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<ulong>("TeacherId")
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Id");
 
@@ -390,22 +384,21 @@ namespace PV178StudyBotDAL.Migrations
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Student", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<int>("AcquiredPoints")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("CurrentRankId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<ulong>("CurrentRankId")
+                        .HasColumnType("bigint unsigned");
 
-                    b.Property<decimal?>("MyTeacherId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<ulong?>("MyTeacherId")
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<string>("OnRegisterName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -418,16 +411,15 @@ namespace PV178StudyBotDAL.Migrations
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Teacher", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint unsigned");
 
-                    b.Property<decimal>("RoleId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<ulong>("RoleId")
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

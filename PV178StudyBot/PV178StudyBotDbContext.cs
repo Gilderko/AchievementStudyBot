@@ -24,14 +24,11 @@ namespace PV178StudyBotDAL
 
         public DbSet<StudentAndAchievement> StudentAndAchievements { get; set; }
 
-
-        private string ConnectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=PV178StudyBot";
+        private string ConnectionString = "server=;database=;user=;port=;password=";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConnectionString);
-
-            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString));  
 
             base.OnConfiguring(optionsBuilder);
         }
