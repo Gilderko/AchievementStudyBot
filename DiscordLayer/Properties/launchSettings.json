@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "DiscordLayer": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "PV178StudyBot_Prefix": "?",
+        "PV178StudyBot_ConnectionString": "server=localhost;database=PV178BotDB;user=root;port=3333;password=sexbomba123",
+        "PV178StudyBot_Token": "OTI4OTUxMjA1MTI2ODg1Mzk2.YdgPOg.FzQWhrybHtZ6ZCLpsZ6AwE5oNKM"
+      }
+    },
+    "Docker (1)": {
+      "commandName": "Docker"
+    }
+  }
+}

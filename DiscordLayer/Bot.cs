@@ -4,10 +4,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
-using Newtonsoft.Json;
 using System;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DiscordLayer
@@ -18,27 +15,24 @@ namespace DiscordLayer
         public InteractivityExtension Interactivity { get; private set; }
         public CommandsNextExtension Commands { get; private set; }
 
-        private const string databaseName = "FImonDB";
-
         public async Task RunAsync()
         {
-            string jsonBotConfigString = "";
-
-            using (FileStream fs = File.OpenRead("config.json"))
-            using (StreamReader sr = new StreamReader(fs, new UTF8Encoding(false)))
-                jsonBotConfigString = await sr.ReadToEndAsync().ConfigureAwait(false);
-
-            ConfigJson configJson = JsonConvert.DeserializeObject<ConfigJson>(jsonBotConfigString);
-
-            DiscordConfiguration config = new DiscordConfiguration
+            //This should be injected
+            Config config = new Config
             {
-                Token = configJson.Token,
+                Token = Environment.GetEnvironmentVariable("PV178StudyBot_Token"),
+                Prefix = Environment.GetEnvironmentVariable("PV178StudyBot_Prefix")
+            };
+
+            DiscordConfiguration discordConfig = new DiscordConfiguration
+            {
+                Token = config.Token,
                 TokenType = TokenType.Bot,
                 AutoReconnect = true,
                 MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Information,
             };
 
-            Client = new DiscordClient(config);
+            Client = new DiscordClient(discordConfig);
 
             Client.Ready += OnClientReady;
 
@@ -51,7 +45,7 @@ namespace DiscordLayer
 
             CommandsNextConfiguration commandsConfig = new CommandsNextConfiguration
             {
-                StringPrefixes = new string[] { configJson.Prefix },
+                StringPrefixes = new string[] { config.Prefix },
                 EnableMentionPrefix = true,
                 EnableDms = false,
                 CaseSensitive = false,

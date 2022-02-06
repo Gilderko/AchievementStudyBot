@@ -2,12 +2,12 @@
 
 namespace DiscordLayer
 {
-    public struct ConfigJson
+    public struct Config
     {
         [JsonProperty("token")]
-        public string Token { get; private set; }
+        public string Token { get; init; }
 
         [JsonProperty("prefix")]
-        public string Prefix { get; private set; }
+        public string Prefix { get; init; }
     }
 }
