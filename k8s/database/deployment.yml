@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv178studybot-mysql
+spec:
+  selector:
+    matchLabels:
+      app: pv178studybot-mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: pv178studybot-mysql
+    spec:
+      securityContext:
+        fsGroup: 10001
+        runAsUser: 10001
+      containers:
+      - image: mysql:5.6
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pv178studybot-mysql-secret
+              key: password
+              # kubectl create secret generic pv178studybot-mysql-secret --from-literal=password="MyC0m9l&xP@ssw0rd"
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: pv178studybot-mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        resources:
+          limits:
+            cpu: "1"
+            memory: 8Gi
+          requests:
+            cpu: "1"
+            memory: 8Gi
+      volumes:
+      - name: pv178studybot-mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: pv178studybot-mysql-pv-claim
