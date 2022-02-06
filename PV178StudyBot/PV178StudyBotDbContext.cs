@@ -24,7 +24,7 @@ namespace PV178StudyBotDAL
 
         public DbSet<StudentAndAchievement> StudentAndAchievements { get; set; }
 
-        private string ConnectionString = "server=;database=;user=;port=;password=";
+        private string ConnectionString = "server=localhost;database=PV178BotDB;user=root;port=3333;password=sexbomba123";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
