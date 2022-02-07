@@ -5,7 +5,7 @@ metadata:
   labels:
     app: pv178studybot
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: pv178studybot
@@ -33,3 +33,11 @@ spec:
             secretKeyRef:
               name: pv178studybot-secret
               key: token
+      imagePullSecrets:
+      - name: github-regcred
+# SEE: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+# kubectl create secret docker-registry github-regcred --docker-server=ghcr.io --docker-username=<USER> --docker-password=<ACCESS_TOKEN>
+
+# --RUN--
+# $env:PV178StudyBot_ConnectionString="server=147.251.253.247;database=PV178BotDB;user=pv178studybot;port=3306;password=<USER_PASSWORD>"
+# dotnet ef database update

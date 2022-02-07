@@ -24,8 +24,17 @@ spec:
           valueFrom:
             secretKeyRef:
               name: pv178studybot-mysql-secret
-              key: password
-              # kubectl create secret generic pv178studybot-mysql-secret --from-literal=password="MyC0m9l&xP@ssw0rd"
+              key: root-password
+              # kubectl create secret generic pv178studybot-mysql-secret --from-literal=root-password="MyC0m9l&xP@ssw0rd"
+        - name: MYSQL_DATABASE
+          value: PV178BotDB
+        - name: MYSQL_USER
+          value: pv178studybot
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pv178studybot-mysql-secret
+              key: user-password
         ports:
         - containerPort: 3306
           name: mysql
