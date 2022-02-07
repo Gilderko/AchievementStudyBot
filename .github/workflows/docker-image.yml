@@ -27,5 +27,4 @@ jobs:
         push: true # Will only build if this is not here
         context: ./DiscordLayer
         tags: |
-          ghcr.io/${{ github.repository }}:${{ github.ref }}
           ghcr.io/${{ github.repository }}:latest
