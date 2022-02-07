@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name:  pv178studybot-mysql-svc
+spec:
+  selector:
+    app: pv178studybot-mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP
+  # LoadBalancer - External IP (DANGEROUS without proper security, as you are exposing the service to the world!)
+  # ClusterIP - Cluster IP
+  # You can check IPs by calling: kubectl get services

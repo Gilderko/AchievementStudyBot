@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv178studybot-dep
+  labels:
+    app: pv178studybot
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pv178studybot
+  template:
+    metadata:
+      labels:
+        app: pv178studybot
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+      - name: pv178studybot
+        image: ''
+        env:                                                                    
+        - name: PV178StudyBot_Prefix
+          value: '?'
+        - name: PV178StudyBot_ConnectionString
+          valueFrom:
+            secretKeyRef:
+              name: pv178studybot-secret
+              key: connectionString
+        - name: PV178StudyBot_Token
+          valueFrom:
+            secretKeyRef:
+              name: pv178studybot-secret
+              key: token
+      imagePullSecrets:
+      - name: regcred

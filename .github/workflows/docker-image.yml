@@ -15,6 +15,30 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Build the Docker image
-      run: docker build . --file DiscordLayer/Dockerfile --tag pv178studybot:$(date +%s)
+    # build the tags for images
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        # list of Docker images to use as base name for tags
+        images: |
+          ghcr.io/gilderko/pv178studybot/pv178studybot
+        # generate Docker tags based on the following events/attributes
+        tags: |
+          type=ref,event=branch,latest=true
+          type=ref,event=tag,latest=true
+          type=ref,event=pr,latest=true
+    # login to gilderko container registry
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.ACCESS_TOKEN }}
+    # build and push the image
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v2
+      with:
+        push: true # Will only build if this is not here
+        file: DiscordLayer/Dockerfile
+        tags: ${{ steps.meta.outputs.tags }}
