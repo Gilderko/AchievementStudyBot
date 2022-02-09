@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name:  pv178studybot-mysql-svc
+  annotations:
+      external-dns.alpha.kubernetes.io/hostname: pv178studybot.mysql.dyn.cloud.e-infra.cz
+      purelb.io/service-group: privmuni
 spec:
   selector:
     app: pv178studybot-mysql
@@ -9,7 +12,7 @@ spec:
     - protocol: TCP
       port: 3306
       targetPort: 3306
-  type: ClusterIP
+  type: LoadBalancer
   # LoadBalancer - External IP (DANGEROUS without proper security, as you are exposing the service to the world!)
   # ClusterIP - Cluster IP
   # You can check IPs by calling: kubectl get services
