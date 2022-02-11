@@ -71,8 +71,6 @@ namespace PV178StudyBotDAL.Migrations
                 {
                     Id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    RoleName = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     RoleId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
@@ -182,7 +180,6 @@ namespace PV178StudyBotDAL.Migrations
                     { 28, "Use a technology that was not taught in this course in your project.", "https://www.fi.muni.cz/~xmacak1/badges/General.png", "Leonardo", 10 },
                     { 27, "Miss maximum 1 seminar without a health reason.", "https://www.fi.muni.cz/~xmacak1/badges/Fanatic.png", "Fanatic", 35 },
                     { 26, "Do not arrive late to any seminar.", "https://www.fi.muni.cz/~xmacak1/badges/Nevertoolate.png", "Never Too Late", 25 },
-                    { 25, "Attend the sixth bonus lecture.", "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png", "Guest on a Quest VI", 10 },
                     { 24, "Attend the fifth bonus lecture.", "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png", "Guest on a Quest V", 10 },
                     { 23, "Attend the fourth bonus lecture.", "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png", "Guest on a Quest IV", 10 },
                     { 22, "Attend the third bonus lecture.", "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png", "Guest on a Quest III", 10 },
@@ -191,8 +188,8 @@ namespace PV178StudyBotDAL.Migrations
                     { 19, "Get full points from all test questionnaires.", "https://www.fi.muni.cz/~xmacak1/badges/ArmedandReady.png", "Armed & Ready", 40 },
                     { 18, "Submit one homework at least 2 days before the deadline.", "https://www.fi.muni.cz/~xmacak1/badges/FastExplorer.png", "Fast Explorer", 20 },
                     { 17, "Finish HW04 on Heroic mode.", "https://www.fi.muni.cz/~xmacak1/badges/HW04.png", "Heroic Mode IV", 20 },
+                    { 31, "Submit your answers to the course survey.", "https://www.fi.muni.cz/~xmacak1/badges/Bullseye.png", "Bullseye", 10 },
                     { 16, "Get at least 9 points from HW04.", "https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png", "See Sharp IV", 35 },
-                    { 15, "Finish HW03 on Heroic mode.", "https://www.fi.muni.cz/~xmacak1/badges/SharkExpert.png", "Heroic Mode III", 20 },
                     { 14, "Get at least 9 points from HW03.", "https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png", "See Sharp III", 30 },
                     { 13, "Finish HW02 on Heroic mode.", "https://www.fi.muni.cz/~xmacak1/badges/HW02.png", "Heroic Mode II", 15 },
                     { 12, "Get at least 7 points from HW02.", "https://www.fi.muni.cz/~xmacak1/badges/SeeSharp.png", "See Sharp II", 25 },
@@ -201,12 +198,12 @@ namespace PV178StudyBotDAL.Migrations
                     { 9, "Come up with a new question for the test questionnaire", "https://www.fi.muni.cz/~xmacak1/badges/Recruiter.png", "Recruiter", 10 },
                     { 8, "Get full points from four test questionnaires.", "https://www.fi.muni.cz/~xmacak1/badges/Lucker.png", "Lucker 2.0", 15 },
                     { 7, "Get full points from one test questionnaire.", "https://www.fi.muni.cz/~xmacak1/badges/Lucker.png", "Lucker", 10 },
-                    { 6, "Visit the third seminar.", "https://www.fi.muni.cz/~xmacak1/badges/Qualifier.png", "Qualifier", 10 },
+                    { 6, "Visit three seminars in a row.", "https://www.fi.muni.cz/~xmacak1/badges/Qualifier.png", "Qualifier", 10 },
                     { 5, "Write a relevant post in Discord.", "https://www.fi.muni.cz/~xmacak1/badges/Forum.png", "Yes, We Have a Forum", 5 },
                     { 4, "Do not arrive late to a seminar.", "https://www.fi.muni.cz/~xmacak1/badges/Nottoolate.png", "Not Too Late", 10 },
                     { 3, "First relevant question in seminar.", "https://www.fi.muni.cz/~xmacak1/badges/Curious.png", "Curious", 10 },
                     { 2, "First answer to a relevant question in seminar.", "https://www.fi.muni.cz/~xmacak1/badges/FirstBlood.png", "First Blood", 10 },
-                    { 31, "Submit your answers to the course survey.", "https://www.fi.muni.cz/~xmacak1/badges/Bullseye.png", "Bullseye", 10 }
+                    { 15, "Finish HW03 on Heroic mode.", "https://www.fi.muni.cz/~xmacak1/badges/SharkExpert.png", "Heroic Mode III", 20 }
                 });
 
             migrationBuilder.InsertData(

@@ -83,7 +83,7 @@ namespace PV178StudyBotDAL.Migrations
                         new
                         {
                             Id = 6,
-                            Description = "Visit the third seminar.",
+                            Description = "Visit three seminars in a row.",
                             ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/Qualifier.png",
                             Name = "Qualifier",
                             PointReward = 10
@@ -230,14 +230,6 @@ namespace PV178StudyBotDAL.Migrations
                             Description = "Attend the fifth bonus lecture.",
                             ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
                             Name = "Guest on a Quest V",
-                            PointReward = 10
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Description = "Attend the sixth bonus lecture.",
-                            ImagePath = "https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
-                            Name = "Guest on a Quest VI",
                             PointReward = 10
                         },
                         new
@@ -416,9 +408,6 @@ namespace PV178StudyBotDAL.Migrations
                     b.Property<ulong>("RoleId")
                         .HasColumnType("bigint unsigned");
 
-                    b.Property<string>("RoleName")
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
                     b.ToTable("Teachers");
@@ -452,7 +441,7 @@ namespace PV178StudyBotDAL.Migrations
                         .IsRequired();
 
                     b.HasOne("PV178StudyBotDAL.Entities.Student", "Student")
-                        .WithMany()
+                        .WithMany("MyRequests")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -489,6 +478,8 @@ namespace PV178StudyBotDAL.Migrations
 
             modelBuilder.Entity("PV178StudyBotDAL.Entities.Student", b =>
                 {
+                    b.Navigation("MyRequests");
+
                     b.Navigation("ReachedAchievements");
                 });
 

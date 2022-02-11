@@ -52,7 +52,7 @@ namespace PV178StudyBotDAL
                 {
                     Id = 6,
                     Name = "Qualifier",
-                    Description = "Visit the third seminar.",
+                    Description = "Visit three seminars in a row.",
                     ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/Qualifier.png",
                     PointReward = 10
                 },
@@ -197,14 +197,6 @@ namespace PV178StudyBotDAL
                     Id = 24,
                     Name = "Guest on a Quest V",
                     Description = "Attend the fifth bonus lecture.",
-                    ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
-                    PointReward = 10
-                },
-                new Achievement
-                {
-                    Id = 25,
-                    Name = "Guest on a Quest VI",
-                    Description = "Attend the sixth bonus lecture.",
                     ImagePath = @"https://www.fi.muni.cz/~xmacak1/badges/GuestonQuest.png",
                     PointReward = 10
                 },
