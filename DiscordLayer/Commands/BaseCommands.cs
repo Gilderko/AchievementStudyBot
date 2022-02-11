@@ -1,10 +1,12 @@
 ﻿using DiscordLayer.CommandAttributes;
+using DiscordLayer.Handlers.Dialogue.SlidingWindow;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using Microsoft.EntityFrameworkCore;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,12 +14,15 @@ namespace DiscordLayer.Commands
 {
     public class BaseCommands : BaseCommandModule
     {
-        [Command("ping")]
+        [Command("ping")]        
         [RequireAdmin]
         private async Task Ping(CommandContext ctx)
         {
-            await ctx.Channel.SendMessageAsync("Pongus");
+            var messagesToDelete = new List<DiscordMessage>() { ctx.Message };
+            messagesToDelete.Add(await ctx.Channel.SendMessageAsync("Pongus"));
+            await DeleteMessages(messagesToDelete);
         }
+
         protected async Task SendErrorMessage(string errorMessage, DiscordChannel channel)
         {
             var errMessage = await channel.SendMessageAsync($"`{errorMessage}`");
@@ -25,9 +30,12 @@ namespace DiscordLayer.Commands
             await errMessage.DeleteAsync();
         }
 
-        [Command("leaderBoard")]        
+        [Command("leaderBoard")]    
+        [Description("Shows top 10 highest grossing students + your position as a student")]
         private async Task LeaderBoard(CommandContext ctx)
         {
+            var messagesToDelete = new List<DiscordMessage>() { ctx.Message };
+
             using (var dbContext = new PV178StudyBotDbContext())
             {
                 var allStudents = await dbContext.Students.OrderByDescending(student => student.AcquiredPoints).ToListAsync();
@@ -40,7 +48,7 @@ namespace DiscordLayer.Commands
                 };
 
                 string leaderBoardString = top10Students.Aggregate
-                    (("",1), (total, next) => (total.Item1 + $"{total.Item2}. {next.OnRegisterName}: {next.AcquiredPoints} caps",total.Item2 + 1)).Item1;
+                    (("",1), (total, next) => (total.Item1 + $"{total.Item2}. {next.OnRegisterName}: {next.AcquiredPoints} caps\n",total.Item2 + 1)).Item1;
 
                 embedBuilder.Description = leaderBoardString;
 
@@ -56,16 +64,58 @@ namespace DiscordLayer.Commands
 
                 await SendCorrectMessage(embedBuilder.Build(), ctx.Channel);
             }
+
+            await DeleteMessages(messagesToDelete);
         }
 
-        protected async Task<ulong> SendCorrectMessage(string correctMessage, DiscordChannel channel)
+        [Command("viewAchievements")]
+        [Description("Allows to look though all available achievements")]
+        public async Task ViewAchievements(CommandContext ctx)
         {
-            return (await channel.SendMessageAsync($"`{correctMessage}`")).Id;
+            var discordStudent = ctx.Member;
+            var messagesToDelete = new List<DiscordMessage>() { ctx.Message };
+
+            using (var dbContext = new PV178StudyBotDbContext())
+            {
+                var allAchievements = await dbContext.Achievements.ToListAsync();
+
+                var pagedDialogue = new PagedDialogue<Achievement>(ctx.Guild, ctx.Client, ctx.Channel, discordStudent, false, false, "Available achievements"
+                    , false, allAchievements);
+
+                var (_, _, message) = await pagedDialogue.ExecuteDialogue();
+                messagesToDelete.Add(message);
+            }
+
+            await DeleteMessages(messagesToDelete);
         }
 
-        protected async Task<ulong> SendCorrectMessage(DiscordEmbed embedMessage, DiscordChannel channel)
+        [Command("va")]
+        [Description("Short for viewAchievements")]
+        public async Task ViewAchievements2(CommandContext ctx)
         {
-            return (await channel.SendMessageAsync(embed: embedMessage)).Id;
+            await ViewAchievements(ctx);
+        }
+
+        protected async Task<DiscordMessage> SendCorrectMessage(string correctMessage, DiscordChannel channel)
+        {
+            return (await channel.SendMessageAsync($"`{correctMessage}`"));
+        }
+
+        protected async Task<DiscordMessage> SendCorrectMessage(DiscordEmbed embedMessage, DiscordChannel channel)
+        {
+            return (await channel.SendMessageAsync(embed: embedMessage));
+        }
+
+        protected async Task DeleteMessages(IEnumerable<DiscordMessage> messages)
+        {
+            await Task.Delay(5000);
+            foreach (var message in messages)
+            {
+                if (message != null)
+                {
+                    await message.DeleteAsync();
+                }
+            }
         }
 
         protected Rank CalculateAppropriateRank(int points)

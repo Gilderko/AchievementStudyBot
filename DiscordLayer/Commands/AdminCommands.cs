@@ -1,6 +1,7 @@
 ﻿using DiscordLayer.CommandAttributes;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
 using System;
@@ -15,11 +16,15 @@ namespace DiscordLayer.Commands
         [RequireAdmin]
         public async Task RegisterTeacher(CommandContext ctx)
         {
+            var messagesToDelete = new List<DiscordMessage>() { ctx.Message };
+
             using (var dbcontext = new PV178StudyBotDbContext())
             {
                 if (ctx.Message.MentionEveryone || ctx.Message.MentionedUsers.Count == 0)
                 {
                     await SendErrorMessage("You failed to tag one person or tagged everyone", ctx.Channel);
+                    await DeleteMessages(messagesToDelete);
+                    return;
                 }
 
                 Random randomGenerator = new Random();
@@ -32,36 +37,38 @@ namespace DiscordLayer.Commands
                         continue;
                     }
 
-                    var roleName = $"{ctx.User.Username}-Worshipper";
-                    float roleColorR = (float)randomGenerator.NextDouble();
-                    float roleColorG = (float)randomGenerator.NextDouble();
-                    float roleColorB = (float)randomGenerator.NextDouble();
-                    var newRole = await ctx.Guild.CreateRoleAsync(roleName, null, new DSharpPlus.Entities.DiscordColor(roleColorR, roleColorG, roleColorB), null, true);
+                    var roleName = $"{potentialTeacher.Username}-Fan";
+                    var newRole = await ctx.Guild.CreateRoleAsync(roleName, null, new DSharpPlus.Entities.DiscordColor(), null, true);
 
                     var newTeacher = new Teacher()
                     {
                         Id = potentialTeacher.Id,
-                        RoleId = newRole.Id,
-                        RoleName = roleName,
+                        RoleId = newRole.Id
                     };
 
                     await dbcontext.Teachers.AddAsync(newTeacher);
 
                     await dbcontext.SaveChangesAsync();
-                    await SendCorrectMessage("Teacher was correctly created",ctx.Channel);
+                    messagesToDelete.Add(await SendCorrectMessage("Teacher was correctly created", ctx.Channel));
                 }
             }
+
+            await DeleteMessages(messagesToDelete);
         }
 
         [Command("deleteTeacher")]
         [RequireAdmin]
         public async Task DeleteTeacher(CommandContext ctx)
         {
+            var messagesToDelete = new List<DiscordMessage>() { ctx.Message };
+
             using (var dbcontext = new PV178StudyBotDbContext())
             {
                 if (ctx.Message.MentionEveryone || ctx.Message.MentionedUsers.Count == 0)
                 {
                     await SendErrorMessage("You failed to tag one person or tagged everyone", ctx.Channel);
+                    await DeleteMessages(messagesToDelete);
+                    return;
                 }
 
                 foreach (var potentialTeacher in ctx.Message.MentionedUsers)
@@ -76,15 +83,19 @@ namespace DiscordLayer.Commands
                     dbcontext.Teachers.Remove(dbTeacher);
 
                     await dbcontext.SaveChangesAsync();
-                    await SendCorrectMessage("Teacher was correctly deleted... dont forget to delete a role yourself", ctx.Channel);
+                    messagesToDelete.Add(await SendCorrectMessage("Teacher was correctly deleted... dont forget to delete a role yourself", ctx.Channel));
                 }
             }
+
+            await DeleteMessages(messagesToDelete);
         }
 
         [Command("createRankRoles")]
         [RequireAdmin]
         public async Task CreateRankRoles(CommandContext ctx)
         {
+            var messagesToDelete = new List<DiscordMessage>() { ctx.Message };
+
             var ranks = new List<Rank>()
             {
                 new Rank()
@@ -172,7 +183,28 @@ namespace DiscordLayer.Commands
                 }
 
                 await dbContext.SaveChangesAsync();
+                messagesToDelete.Add(await SendCorrectMessage("'Roles successfully created'", ctx.Channel));
             }
+
+            await DeleteMessages (messagesToDelete);
+        }
+
+        [Command("yatasiOut")]
+        [RequireAdmin]
+        public async Task YatasiOut(CommandContext ctx)
+        {
+            ulong yatasiID = 539429734921273345;
+            var yatasi = await ctx.Guild.GetMemberAsync(yatasiID);
+
+            var embed = new DiscordEmbedBuilder()
+            {
+                Title = $"Yatasi out",
+                Description = $"{yatasi.Mention}",
+                Color = DiscordColor.HotPink,
+                ImageUrl = @"https://media.giphy.com/media/buNXAFTVafgzn3EeJf/giphy.gif"
+            };
+
+            await SendCorrectMessage(embed.Build(), ctx.Channel);
         }
     }
 }

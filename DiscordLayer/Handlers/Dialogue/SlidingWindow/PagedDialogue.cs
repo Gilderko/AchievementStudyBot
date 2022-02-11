@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
 {
-    public class PagedDialogue<Value> where Value : class
+    public class PagedDialogue<Value> where Value : class, ITextDisplayable
     {
         private readonly DiscordGuild _guild;
         private readonly DiscordClient _client;
@@ -17,6 +17,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
         private readonly DiscordUser _user;
         private readonly bool _canAccept = false;
         private readonly bool _canDeny = false;
+        private readonly bool _canConfirmAll = false;
         private readonly string _title = "";
 
         private readonly List<Value> _valuesToReturn = new List<Value>();
@@ -28,9 +29,10 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
         private DiscordEmoji _decline;
         private DiscordEmoji _terminate;
         private DiscordEmoji _confirm;
+        private DiscordEmoji _confirmAllButDeclined;
 
         public PagedDialogue(DiscordGuild guild, DiscordClient client, DiscordChannel channel,
-            DiscordUser user, bool canAccept, bool canDeny, string title, List<Value> valuesToReturn)
+            DiscordUser user, bool canAccept, bool canDeny, string title, bool allowConfirmAll, List<Value> valuesToReturn)
         {
             _guild = guild;
             _client = client;
@@ -39,14 +41,15 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             _canAccept = canAccept;
             _canDeny = canDeny;
             _title = title;
+            _canConfirmAll = allowConfirmAll;
             _valuesToReturn = valuesToReturn;
         }
 
-        public async Task<(IEnumerable<Value>, IEnumerable<Value>)> ExecuteDialogue()
+        public async Task<(IEnumerable<Value>, IEnumerable<Value>, DiscordMessage)> ExecuteDialogue()
         {
             if (_valuesToReturn.Count == 0)
             {
-                return (new HashSet<Value>(), new HashSet<Value>());
+                return (new HashSet<Value>(), new HashSet<Value>(), null);
             }
 
             var availableReactions = InitializeEmojis();
@@ -84,8 +87,8 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 }
                 else
                 {
-                    string toAcceptField = toAccept.Aggregate("", (total, next) => total + $"{next.ToString()}\n");
-                    string toDenyField = toDeny.Aggregate("", (total, next) => total + $"{next.ToString()}\n");
+                    string toAcceptField = toAccept.Aggregate("", (total, next) => total + $"{next.ToStringShort()}\n");
+                    string toDenyField = toDeny.Aggregate("", (total, next) => total + $"{next.ToStringShort()}\n");
 
                     if (toAcceptField != string.Empty)
                     {
@@ -104,7 +107,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
 
                 if (reactionResult.TimedOut)
                 {
-                    return (new HashSet<Value>(), new HashSet<Value>());
+                    return (new HashSet<Value>(), new HashSet<Value>(), theMessage);
                 }
 
                 var reactionEmoji = reactionResult.Result.Emoji;
@@ -121,12 +124,13 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 {
                     if (toDeny.Contains(_valuesToReturn[_currentPageIndex]))
                     {
-                        toDeny.Remove(_valuesToReturn[_currentPageIndex]);
+                        toDeny.Remove(_valuesToReturn[_currentPageIndex]);                        
                     }
                     else
                     {
-                        toAccept.Add(_valuesToReturn[_currentPageIndex]);
+                        toAccept.Add(_valuesToReturn[_currentPageIndex]);                        
                     }
+                    _currentPageIndex = Math.Clamp(_currentPageIndex + 1, 0, _valuesToReturn.Count - 1);
                 }
                 else if (reactionEmoji == _decline && _canDeny)
                 {
@@ -138,14 +142,19 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                     {
                         toDeny.Add(_valuesToReturn[_currentPageIndex]);
                     }
+                    _currentPageIndex = Math.Clamp(_currentPageIndex + 1, 0, _valuesToReturn.Count - 1);
                 }
                 else if (reactionEmoji == _confirm)
                 {
-                    return (toAccept, toDeny);
+                    return (toAccept, toDeny, theMessage);
                 }
                 else if (reactionEmoji == _terminate)
                 {
-                    return (new HashSet<Value>(), new HashSet<Value>());
+                    return (new HashSet<Value>(), new HashSet<Value>(), theMessage);
+                }
+                else if (_canConfirmAll && reactionEmoji == _confirmAllButDeclined)
+                {
+                    toAccept = _valuesToReturn.Except(toDeny).ToHashSet();
                 }
 
                 await theMessage.DeleteReactionAsync(reactionEmoji, reactionResult.Result.User);
@@ -160,20 +169,25 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             _decline = DiscordEmoji.FromName(_client, ":negative_squared_cross_mark:");
             _confirm = DiscordEmoji.FromName(_client, ":green_square:");
             _terminate = DiscordEmoji.FromName(_client, ":red_square:");
+            _confirmAllButDeclined = DiscordEmoji.FromName(_client, ":ballot_box_with_check:");
 
             var resultList = new List<DiscordEmoji>() { _goLeft, _goRight };
 
             if (_canAccept)
             {
-                resultList.Add(_accept);
+                resultList.Add(_accept);                
             }
             if (_canDeny)
             {
                 resultList.Add(_decline);
             }
-
-            resultList.Add(_confirm);
+            
             resultList.Add(_terminate);
+            resultList.Add(_confirm);
+            if (_canConfirmAll)
+            {
+                resultList.Add(_confirmAllButDeclined);
+            }
 
             return resultList;
         }
@@ -216,10 +230,22 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
         {
             string description = $"{_goLeft.GetDiscordName()} -> used for turning page to the left" +
                 $"\n{_goRight.GetDiscordName()} -> used for turning page to the right" +
-                $"\n{_accept.GetDiscordName()} -> accept appropriately toward the question" +
-                $"\n{_decline.GetDiscordName()} -> decline appropriately toward the question" +
-                $"\n{_confirm.GetDiscordName()} -> confirm selection (will process selected option)" +
-                $"\n{_terminate.GetDiscordName()} -> terminate selection (wont process selected options)";
+                $"\n{_terminate.GetDiscordName()} -> terminate selection (wont process selected options)" +
+                $"\n{_confirm.GetDiscordName()} -> confirm selection (will process selected option)";
+                
+
+            if (_canAccept)
+            {
+                description += $"\n{_accept.GetDiscordName()} -> accept appropriately toward the question";
+            }
+            if (_canDeny)
+            {
+                description += $"\n{_decline.GetDiscordName()} -> decline appropriately toward the question";
+            }
+            if (_canConfirmAll)
+            {
+                description += $"\n{_confirmAllButDeclined.GetDiscordName()} -> confirms ALL but the DECLINED options!";
+            }
 
             embedBuilder.AddField("Description", description);            
         }

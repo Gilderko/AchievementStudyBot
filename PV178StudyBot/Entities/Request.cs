@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PV178StudyBotDAL.Entities
 {
-    public class Request : BaseEntity
+    public class Request : BaseEntity, ITextDisplayable
     {
         public ulong StudentId { get; set; }
 
@@ -23,9 +23,14 @@ namespace PV178StudyBotDAL.Entities
 
         public override string ToString()
         {
-            return $"{Student.OnRegisterName} requested: {RequestedAchievement.Name}\n" +
-                $"Description: {new String(RequestedAchievement.Description.Take(50).ToArray())}\n" +
-                $"Reward: {RequestedAchievement.PointReward} caps";
+            return $"**{Student.OnRegisterName}** requested: **{RequestedAchievement.Name}**\n" +
+                $"**Description**: {new String(RequestedAchievement.Description.Take(50).ToArray())}\n" +
+                $"**Reward**: {RequestedAchievement.PointReward} caps";
+        }
+
+        public string ToStringShort()
+        {
+            return $"**{Student.OnRegisterName}** requested: **{RequestedAchievement.Name}**";
         }
     }
 }

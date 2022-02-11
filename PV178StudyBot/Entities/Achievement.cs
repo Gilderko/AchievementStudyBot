@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PV178StudyBotDAL.Entities
 {
-    public class Achievement : BaseEntity, IEquatable<Achievement>
+    public class Achievement : BaseEntity, IEquatable<Achievement>, ITextDisplayable
     {
         public string Name { get; set; }
 
@@ -20,7 +20,12 @@ namespace PV178StudyBotDAL.Entities
 
         public override string ToString()
         {
-            return $"{Name}: {new String(Description.Take(40).ToArray())}...";
+            return $"**{Name}**: {new String(Description.Take(40).ToArray())}...";
+        }
+
+        public string ToStringShort()
+        {
+            return this.ToString();
         }
     }
 }
