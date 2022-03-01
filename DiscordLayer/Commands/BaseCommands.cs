@@ -50,6 +50,10 @@ namespace DiscordLayer.Commands
                 string leaderBoardString = top10Students.Aggregate
                     (("",1), (total, next) => (total.Item1 + $"{total.Item2}. {next.OnRegisterName}: {next.AcquiredPoints} caps\n",total.Item2 + 1)).Item1;
 
+                leaderBoardString.Replace("1.", ":first_place:");
+                leaderBoardString.Replace("2.", ":second_place:");
+                leaderBoardString.Replace("3.", ":third_place:");
+
                 embedBuilder.Description = leaderBoardString;
 
                 var dbStudent = dbContext.Students.Find(ctx.Member.Id);

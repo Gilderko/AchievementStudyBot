@@ -17,7 +17,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
         private readonly DiscordUser _user;
         private readonly bool _canAccept = false;
         private readonly bool _canDeny = false;
-        private readonly bool _canConfirmAll = false;
+        private readonly bool _canAcceptAll = false;
         private readonly string _title = "";
 
         private readonly List<Value> _valuesToReturn = new List<Value>();
@@ -41,7 +41,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             _canAccept = canAccept;
             _canDeny = canDeny;
             _title = title;
-            _canConfirmAll = allowConfirmAll;
+            _canAcceptAll = allowConfirmAll;
             _valuesToReturn = valuesToReturn;
         }
 
@@ -152,7 +152,7 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
                 {
                     return (new HashSet<Value>(), new HashSet<Value>(), theMessage);
                 }
-                else if (_canConfirmAll && reactionEmoji == _confirmAllButDeclined)
+                else if (_canAcceptAll && reactionEmoji == _confirmAllButDeclined)
                 {
                     toAccept = _valuesToReturn.Except(toDeny).ToHashSet();
                 }
@@ -177,6 +177,10 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             {
                 resultList.Add(_accept);                
             }
+            if (_canAcceptAll)
+            {
+                resultList.Add(_confirmAllButDeclined);
+            }
             if (_canDeny)
             {
                 resultList.Add(_decline);
@@ -184,11 +188,6 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
             
             resultList.Add(_terminate);
             resultList.Add(_confirm);
-            if (_canConfirmAll)
-            {
-                resultList.Add(_confirmAllButDeclined);
-            }
-
             return resultList;
         }
 
@@ -229,23 +228,24 @@ namespace DiscordLayer.Handlers.Dialogue.SlidingWindow
         private void AddDescription(DiscordEmbedBuilder embedBuilder)
         {
             string description = $"{_goLeft.GetDiscordName()} -> used for turning page to the left" +
-                $"\n{_goRight.GetDiscordName()} -> used for turning page to the right" +
-                $"\n{_terminate.GetDiscordName()} -> terminate selection (wont process selected options)" +
-                $"\n{_confirm.GetDiscordName()} -> confirm selection (will process selected option)";
+                $"\n{_goRight.GetDiscordName()} -> used for turning page to the right";
                 
 
             if (_canAccept)
             {
-                description += $"\n{_accept.GetDiscordName()} -> accept appropriately toward the question";
+                description += $"\n{_accept.GetDiscordName()} -> accept";
+            }
+            if (_canAcceptAll)
+            {
+                description += $"\n{_confirmAllButDeclined.GetDiscordName()} -> accepts ALL but the DECLINED options!";
             }
             if (_canDeny)
             {
-                description += $"\n{_decline.GetDiscordName()} -> decline appropriately toward the question";
+                description += $"\n{_decline.GetDiscordName()} -> decline";
             }
-            if (_canConfirmAll)
-            {
-                description += $"\n{_confirmAllButDeclined.GetDiscordName()} -> confirms ALL but the DECLINED options!";
-            }
+
+            description += $"\n{_terminate.GetDiscordName()} -> terminate selection (wont process selected options)";
+            description += $"\n{_confirm.GetDiscordName()} -> confirm selection (will process selected option)";
 
             embedBuilder.AddField("Description", description);            
         }
