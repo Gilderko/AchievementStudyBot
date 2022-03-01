@@ -20,6 +20,7 @@ spec:
       containers:
       - name: pv178studybot
         image: ghcr.io/gilderko/pv178studybot:master
+        imagePullPolicy: Always
         env:                                                                    
         - name: PV178StudyBot_Prefix
           value: '?'
