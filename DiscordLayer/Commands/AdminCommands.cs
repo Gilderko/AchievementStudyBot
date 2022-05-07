@@ -2,10 +2,12 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using Microsoft.EntityFrameworkCore;
 using PV178StudyBotDAL;
 using PV178StudyBotDAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DiscordLayer.Commands
@@ -189,22 +191,47 @@ namespace DiscordLayer.Commands
             await DeleteMessages (messagesToDelete);
         }
 
-        [Command("yatasiOut")]
+        [Command("recalculate")]
+        [Description("Recalculates points for all students")]
         [RequireAdmin]
-        public async Task YatasiOut(CommandContext ctx)
+        public async Task RecalculatePoints(CommandContext ctx)
         {
-            ulong yatasiID = 539429734921273345;
-            var yatasi = await ctx.Guild.GetMemberAsync(yatasiID);
-
-            var embed = new DiscordEmbedBuilder()
+            using (PV178StudyBotDbContext dbContext = new PV178StudyBotDbContext())
             {
-                Title = $"Yatasi out",
-                Description = $"{yatasi.Mention}",
-                Color = DiscordColor.HotPink,
-                ImageUrl = @"https://media.giphy.com/media/buNXAFTVafgzn3EeJf/giphy.gif"
-            };
+                var allStudents= dbContext.Students.Include(student => student.ReachedAchievements)
+                    .ThenInclude(studAndAchiev => studAndAchiev.Achievement);
 
-            await SendCorrectMessage(embed.Build(), ctx.Channel);
+                foreach (var dbStudent in allStudents)
+                {
+                    var studentPoints = dbStudent.ReachedAchievements.Aggregate(0, (total, next) => total + next.Achievement.PointReward);
+                    var newRank = CalculateAppropriateRank(dbContext, studentPoints);
+
+                    var discordStudent = await ctx.Guild.GetMemberAsync(dbStudent.Id);
+                    if (discordStudent == null)
+                    {
+                        continue;
+                    }
+
+                    var currentDiscordRole = ctx.Guild.GetRole(dbStudent.CurrentRankId);
+                    if (currentDiscordRole == null)
+                    {
+                        continue;
+                    }
+
+                    await discordStudent.RevokeRoleAsync(currentDiscordRole);
+
+                    var newDiscordRole = ctx.Guild.GetRole(newRank.Id);
+                    if (newDiscordRole == null)
+                    {
+                        continue;
+                    }
+
+                    dbStudent.AcquiredPoints = studentPoints;
+                    dbStudent.CurrentRankId = newRank.Id;
+                    await discordStudent.GrantRoleAsync(newDiscordRole);
+                }
+            }
         }
     }
+
 }

@@ -180,20 +180,36 @@ namespace DiscordLayer.Commands
 
                 await dbContext.SaveChangesAsync();
 
+                var resolvedStudentsIds = acceptedRequests.Select((req) => req.StudentId).ToHashSet();
 
                 var studentsToUpdate = dbContext.Students.Include(student => student.ReachedAchievements)
-                    .ThenInclude(studAndAchiev => studAndAchiev.Achievement).Where(student => student.MyTeacherId == discordTeacher.Id);
+                    .ThenInclude(studAndAchiev => studAndAchiev.Achievement).Where(student => resolvedStudentsIds.Contains(student.Id));
 
                 foreach (var dbStudent in studentsToUpdate)
                 {
                     var studentPoints = dbStudent.ReachedAchievements.Aggregate(0, (total, next) => total + next.Achievement.PointReward);
-                    var newRank = CalculateAppropriateRank(studentPoints);
+                    var newRank = CalculateAppropriateRank(dbContext, studentPoints);
 
                     var discordStudent = await ctx.Guild.GetMemberAsync(dbStudent.Id);
+                    if (discordStudent == null)
+                    {
+                        continue;
+                    }
+
                     var currentDiscordRole = ctx.Guild.GetRole(dbStudent.CurrentRankId);
+                    if (currentDiscordRole == null)
+                    {
+                        continue;
+                    }
+
                     await discordStudent.RevokeRoleAsync(currentDiscordRole);
 
                     var newDiscordRole = ctx.Guild.GetRole(newRank.Id);
+                    if (newDiscordRole == null)
+                    {
+                        continue;
+                    }
+
                     dbStudent.AcquiredPoints = studentPoints;
                     dbStudent.CurrentRankId = newRank.Id;
                     await discordStudent.GrantRoleAsync(newDiscordRole);
@@ -208,7 +224,7 @@ namespace DiscordLayer.Commands
                     if (discordStudent == null)
                     {
                         continue;
-                    }
+                    }                    
 
                     var embed = new DiscordEmbedBuilder()
                     {

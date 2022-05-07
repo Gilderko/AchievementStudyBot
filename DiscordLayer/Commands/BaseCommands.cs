@@ -122,18 +122,15 @@ namespace DiscordLayer.Commands
             }
         }
 
-        protected Rank CalculateAppropriateRank(int points)
+        protected Rank CalculateAppropriateRank(PV178StudyBotDbContext dbContext,int points)
         {
             Rank calculatedRank = null;
 
-            using (var dbContext = new PV178StudyBotDbContext())
+            foreach (var rank in dbContext.Ranks.OrderBy(rank => rank.PointsRequired))
             {
-                foreach (var rank in dbContext.Ranks.OrderBy(rank => rank.PointsRequired))
+                if (rank.PointsRequired <= points)
                 {
-                    if (rank.PointsRequired <= points)
-                    {
-                        calculatedRank = rank;
-                    }
+                    calculatedRank = rank;
                 }
             }
 
