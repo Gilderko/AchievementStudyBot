@@ -19,7 +19,7 @@ spec:
         runAsNonRoot: true
       containers:
       - name: pv178studybot
-        image: ghcr.io/gilderko/pv178studybot:master
+        image: ghcr.io/gilderko/pv178studybot:latest
         imagePullPolicy: Always
         env:                                                                    
         - name: PV178StudyBot_Prefix

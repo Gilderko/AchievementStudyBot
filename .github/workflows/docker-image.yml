@@ -25,9 +25,8 @@ jobs:
           ghcr.io/gilderko/pv178studybot
         # generate Docker tags based on the following events/attributes
         tags: |
-          type=ref,event=branch,latest=true
-          type=ref,event=tag,latest=true
-          type=ref,event=pr,latest=true
+          type=ref,event=branch
+          type=ref,event=tag
     # login to gilderko container registry
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1
