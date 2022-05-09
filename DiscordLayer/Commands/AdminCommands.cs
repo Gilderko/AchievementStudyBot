@@ -198,13 +198,13 @@ namespace DiscordLayer.Commands
         {
             using (PV178StudyBotDbContext dbContext = new PV178StudyBotDbContext())
             {
-                var allStudents= dbContext.Students.Include(student => student.ReachedAchievements)
-                    .ThenInclude(studAndAchiev => studAndAchiev.Achievement);
+                var allStudents= await dbContext.Students.Include(student => student.ReachedAchievements)
+                    .ThenInclude(studAndAchiev => studAndAchiev.Achievement).ToListAsync();
 
                 foreach (var dbStudent in allStudents)
                 {
                     var studentPoints = dbStudent.ReachedAchievements.Aggregate(0, (total, next) => total + next.Achievement.PointReward);
-                    var newRank = CalculateAppropriateRank(dbContext, studentPoints);
+                    var newRank = await CalculateAppropriateRank(dbContext, studentPoints);
 
                     var discordStudent = await ctx.Guild.GetMemberAsync(dbStudent.Id);
                     if (discordStudent == null)

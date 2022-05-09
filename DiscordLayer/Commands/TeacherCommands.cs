@@ -182,13 +182,13 @@ namespace DiscordLayer.Commands
 
                 var resolvedStudentsIds = acceptedRequests.Select((req) => req.StudentId).ToHashSet();
 
-                var studentsToUpdate = dbContext.Students.Include(student => student.ReachedAchievements)
-                    .ThenInclude(studAndAchiev => studAndAchiev.Achievement).Where(student => resolvedStudentsIds.Contains(student.Id));
+                var studentsToUpdate = await dbContext.Students.Include(student => student.ReachedAchievements)
+                    .ThenInclude(studAndAchiev => studAndAchiev.Achievement).Where(student => resolvedStudentsIds.Contains(student.Id)).ToListAsync();
 
                 foreach (var dbStudent in studentsToUpdate)
                 {
                     var studentPoints = dbStudent.ReachedAchievements.Aggregate(0, (total, next) => total + next.Achievement.PointReward);
-                    var newRank = CalculateAppropriateRank(dbContext, studentPoints);
+                    var newRank = await CalculateAppropriateRank(dbContext, studentPoints);
 
                     var discordStudent = await ctx.Guild.GetMemberAsync(dbStudent.Id);
                     if (discordStudent == null)

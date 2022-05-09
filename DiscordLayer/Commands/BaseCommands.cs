@@ -122,11 +122,13 @@ namespace DiscordLayer.Commands
             }
         }
 
-        protected Rank CalculateAppropriateRank(PV178StudyBotDbContext dbContext,int points)
+        protected async Task<Rank> CalculateAppropriateRank(PV178StudyBotDbContext dbContext, int points)
         {
             Rank calculatedRank = null;
 
-            foreach (var rank in dbContext.Ranks.OrderBy(rank => rank.PointsRequired))
+            List<Rank> ranks = await dbContext.Ranks.OrderBy(rank => rank.PointsRequired).ToListAsync();
+
+            foreach (var rank in ranks)
             {
                 if (rank.PointsRequired <= points)
                 {
