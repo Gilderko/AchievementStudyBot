@@ -225,12 +225,15 @@ namespace DiscordLayer.Commands
                     {
                         continue;
                     }
-
+                    
                     dbStudent.AcquiredPoints = studentPoints;
                     dbStudent.CurrentRankId = newRank.Id;
                     await discordStudent.GrantRoleAsync(newDiscordRole);
+
                 }
+                await dbContext.SaveChangesAsync();
             }
+            await SendCorrectMessage("Recalculation finished", ctx.Channel);
         }
     }
 
