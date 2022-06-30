@@ -14,5 +14,5 @@ Functionality:
 - Granting an achievement awards points which may increase a rank of the student
 
 ## Project image
-![alt text]()
+![alt text](https://github.com/Gilderko/PV178StudyBot/blob/master/Images/StudyBot.png?raw=true)
 
