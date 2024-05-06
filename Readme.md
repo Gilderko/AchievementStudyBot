@@ -1,22 +1,22 @@
 # Achievement Study Bot
 
-This is a repository for a Discord study bot created for educational purposes of the PV178 course, which takes place at the Faculty of Informatics at Masaryk University.
+This repository hosts a Discord study bot developed specifically for the educational purposes of the PV178 course at the Faculty of Informatics, Masaryk University.
 
-The main goal of the Discord bot is for students to request achievements and for teachers to be capable of acknowledging these achievements using a Discord server.
+The primary function of this Discord bot is to facilitate students in requesting educational achievements and enable teachers to acknowledge these achievements through a Discord server interface.
 
-#### Functionality:
-- The administrator of the bot is capable of registering new teachers 
-- Students can register using special commands
-- Teachers can select which students they teach
-- Students can request an achievement to be granted by a teacher
-- Granting achievement awards points, which may increase the rank of the student
+### Main Functionality
+- **Teacher Registration**: The bot administrator can register new teachers.
+- **Student Registration**: Students can sign up using specific commands.
+- **Teacher-Student Association**: Teachers can select which students they teach.
+- **Achievement Requests**: Students can request achievements from their teachers.
+- **Achievement Approval**: Teachers granting achievements also award points, potentially elevating the student's rank.
 
-## Project images
+## Project Images
 
-Requesting achievements using the Discord UI and the underlying UI logic of the AchievementStudyBot
-![alt text](https://github.com/Gilderko/PV178StudyBot/blob/master/Images/imageStudy2.png?raw=true)
+Below are images demonstrating the user interface for requesting and approving achievements via the Discord UI:
 
+### Requesting Achievements
+![Requesting achievements using the Discord UI](https://github.com/Gilderko/PV178StudyBot/blob/master/Images/imageStudy2.png?raw=true "Requesting Achievements")
 
-Approving achievements using the Discord UI and the underlying UI logic of the AchievementStudyBot
-![alt text](https://github.com/Gilderko/PV178StudyBot/blob/master/Images/imageStudy1.png?raw=true)
-
+### Approving Achievements
+![Approving achievements using the Discord UI](https://github.com/Gilderko/PV178StudyBot/blob/master/Images/imageStudy1.png?raw=true "Approving Achievements")
