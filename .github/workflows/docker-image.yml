@@ -1,43 +1,44 @@
 name: Docker Image CI
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ master ]
+    branches:
+      - 'master'
+    tags:
+      - 'v*'
   pull_request:
-    branches: [ master ]
+    branches:
+      - 'master'
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     # build the tags for images
     - name: Docker meta
       id: meta
-      uses: docker/metadata-action@v3
+      uses: docker/metadata-action@v5
       with:
         # list of Docker images to use as base name for tags
         images: |
           ghcr.io/gilderko/pv178studybot
-        # generate Docker tags based on the following events/attributes
-        tags: |
-          type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
-          type=ref,event=tag
     # login to gilderko container registry
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
-        password: ${{ secrets.ACCESS_TOKEN }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     # build and push the image
     - name: Build and Push Docker Image
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v5
       with:
-        push: true # Will only build if this is not here
+        context: .
+        push: ${{ github.event_name != 'pull_request' }}
         file: DiscordLayer/Dockerfile
         tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
