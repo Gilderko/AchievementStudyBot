@@ -1,0 +1,30 @@
+version: '3.8'
+name: pv178-studybot
+services:
+  db:
+    image: mysql:5.6
+    restart: always
+    environment:
+      MYSQL_DATABASE: PV178BotDB
+      MYSQL_USER: pv178studybot
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+    volumes:
+    - mysql-data:/var/lib/mysql
+    - ./db_init.sql:/docker-entrypoint-initdb.d/db_init.sql
+    ports:
+    - 3306:3306
+  bot:
+    image: ghcr.io/gilderko/pv178studybot:latest
+    build:
+      context: .\..
+      dockerfile: DiscordLayer\Dockerfile
+    restart: always
+    environment:
+      PV178StudyBot_Prefix: "?"
+      PV178StudyBot_ConnectionString: "Server=db;Database=PV178BotDB;Uid=pv178studybot;Pwd=${DB_PASSWORD};"
+      PV178StudyBot_Token: "${DISCORD_TOKEN}"
+    depends_on:
+    - db
+volumes:
+  mysql-data:
